@@ -6,7 +6,7 @@
         "/  "
     ],
     "key": {
-        "#": "minecraft:echo_shard",
+        "#": "jojosquared:stardust_shard",
         "B": "jojosquared:broken_stand_arrow",
         "/": "minecraft:stick"
     },

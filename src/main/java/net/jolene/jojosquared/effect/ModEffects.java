@@ -12,7 +12,10 @@ import net.minecraft.util.Identifier;
 public class ModEffects {
 
     public static final RegistryEntry<StatusEffect> MENACING = registerStatusEffect("menacing",
-            new PlunderFriction(StatusEffectCategory.NEUTRAL, 0x5b8eeb)
+            new Menacing(StatusEffectCategory.NEUTRAL, 0x5b8eeb)
+    );
+    public static final RegistryEntry<StatusEffect> EQUIVALENT_EXCHANGE = registerStatusEffect("equivalent_exchange",
+            new EquivalentExchange(StatusEffectCategory.BENEFICIAL, 0x5b8eeb)
     );
     public static final RegistryEntry<StatusEffect> PLUNDER_FRICTION = registerStatusEffect("plunder_friction",
             new PlunderFriction(StatusEffectCategory.HARMFUL, 0x783f04)
