@@ -24,8 +24,8 @@ public class MessageListenerScanner {
                         Path.of(modPath.toString().split("build\\\\resources\\\\main")[0] + "build\\classes\\java\\main")
                 ));
             }
-            else
-                allHits.addAll(scanModPath(modPath));
+//            else
+//                allHits.addAll(scanModPath(modPath));
         }
 
         return allHits.stream().distinct().collect(Collectors.toList());
@@ -43,9 +43,11 @@ public class MessageListenerScanner {
     private List<Class<?>> scanModPath(Path path) {
         if (Files.isDirectory(path)) {
             return scanDirectory(path);
-        } else {
-            return scanJar(path);
         }
+//        else {
+//            return scanJar(path);
+//        }
+        return null;
     }
 
     private List<Class<?>> scanJar(Path jarPath) {
