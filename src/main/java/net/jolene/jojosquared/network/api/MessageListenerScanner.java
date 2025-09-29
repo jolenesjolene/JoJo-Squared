@@ -25,8 +25,8 @@ public class MessageListenerScanner {
                         Path.of(modPath.toString().split("build\\\\resources\\\\main")[0] + "build\\classes\\java\\main")
                 ));
             }
-//            else
-//                allHits.addAll(scanModPath(modPath));
+            else
+                allHits.addAll(scanModPath(modPath));
         }
 
         return allHits.stream().distinct().collect(Collectors.toList());
@@ -49,10 +49,9 @@ public class MessageListenerScanner {
         if (Files.isDirectory(path)) {
             return scanDirectory(path);
         }
-//        else {
-//            return scanJar(path);
-//        }
-        return null;
+        else {
+            return scanJar(path);
+        }
     }
 
     private List<Class<?>> scanJar(Path jarPath) {
@@ -64,7 +63,7 @@ public class MessageListenerScanner {
                 if (!e.getName().endsWith(".class")) continue;
 
                 String name = toClassName(e.getName());
-                if (name.contains(".mixin.")) continue;
+                if (name.toLowerCase().contains("mixin")) continue;
 
                 loadIfAnnotated(name).ifPresent(hits::add);
             }
