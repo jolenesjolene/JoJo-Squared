@@ -2,8 +2,8 @@ package net.jolene.jojosquared.block;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.jolene.jojosquared.JoJoSquared;
-import net.jolene.jojosquared.block.classes.RokakakaPlantBlock;
-import net.jolene.jojosquared.block.classes.RokakakaPlantTopBlock;
+import net.jolene.jojosquared.block.custom.RokakakaPlantBlock;
+import net.jolene.jojosquared.block.custom.RokakakaPlantTopBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
