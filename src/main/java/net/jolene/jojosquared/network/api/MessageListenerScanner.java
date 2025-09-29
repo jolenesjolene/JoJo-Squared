@@ -2,6 +2,7 @@ package net.jolene.jojosquared.network.api;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.ModOrigin;
 import net.jolene.jojosquared.JoJoSquared;
 
 import java.io.IOException;
@@ -36,7 +37,11 @@ public class MessageListenerScanner {
                 .getAllMods()
                 .stream()
                 .map(ModContainer::getOrigin)
-                .flatMap(origin -> origin.getPaths().stream())
+                .flatMap(origin -> {
+                    if (origin.getKind() != ModOrigin.Kind.PATH)
+                        return null;
+                    return origin.getPaths().stream();
+                })
                 .collect(Collectors.toList());
     }
 
