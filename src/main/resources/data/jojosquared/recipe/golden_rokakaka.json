@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "ggg",
+        "gRg",
+        "ggg"
+    ],
+    "key": {
+        "g": "minecraft:gold_ingot",
+        "R": "jojosquared:rokakaka"
+    },
+    "result": {
+        "id": "jojosquared:golden_rokakaka",
+        "count": 1
+    }
+}

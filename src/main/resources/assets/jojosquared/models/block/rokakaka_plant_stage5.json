@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/cross",
+	"textures": {
+		"cross": "jojosquared:block/rokakaka_plant_stage5"
+	}
+}

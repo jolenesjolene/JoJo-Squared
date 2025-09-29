@@ -1,0 +1,40 @@
+{
+  "parent": "jojosquared:root",
+  "criteria": {
+    "perv_on_lisa": {
+      "trigger": "minecraft:using_item",
+      "conditions": {
+        "player": {
+          "type_specific": {
+            "type": "minecraft:player",
+            "looking_at": {
+              "type": "minecraft:painting",
+              "nbt": "{variant:\"jojosquared:rock_hard\"}"
+            }
+          }
+        },
+        "item": {
+          "items": "minecraft:spyglass"
+        }
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.jojosquared.hard.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:painting"
+    },
+    "title": {
+      "translate": "advancement.jojosquared.hard"
+    }
+  },
+  "requirements": [
+    [
+      "perv_on_lisa"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

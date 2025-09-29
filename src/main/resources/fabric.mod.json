@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "jojosquared",
+	"version": "${version}",
+	"name": "JoJo Squared",
+	"description": "A mod that adds content inspired by JoJo's Bizarre Adventure by the amazing Hirohiko Araki!",
+	"authors": [
+		"Jolene <3"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/jojo-squared",
+		"sources": "https://github.com/jolenesjolene/JoJo-Squared"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/jojosquared/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.jolene.jojosquared.JoJoSquared"
+		],
+		"fabric-datagen": [
+			"net.jolene.jojosquared.JoJoSquaredDataGenerator"
+		],
+		"client": [
+			"net.jolene.jojosquared.JoJoSquaredClient"
+		]
+	},
+	"mixins": [
+		"jojosquared.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.17.2",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

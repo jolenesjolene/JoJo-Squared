@@ -1,0 +1,11 @@
+{
+  "morioh_cho_radio": {
+    "subtitle": "sounds.jojosquared.morioh_cho_radio",
+    "sounds": [
+      {
+        "name": "jojosquared:morioh_cho_radio",
+        "stream": true
+      }
+    ]
+  }
+}

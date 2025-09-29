@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " ##",
+        " B#",
+        "/  "
+    ],
+    "key": {
+        "#": "minecraft:echo_shard",
+        "B": "jojosquared:broken_stand_arrow",
+        "/": "minecraft:stick"
+    },
+    "result": {
+        "id": "jojosquared:stand_arrow",
+        "count": 1
+    }
+}

@@ -1,0 +1,50 @@
+{
+  "display": {
+    "icon": {
+      "id": "jojosquared:rokakaka"
+    },
+    "title": {
+      "translate": "advancement.jojosquared.rokakaka"
+    },
+    "description": {
+      "translate": "advancement.jojosquared.rokakaka.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "jojosquared:root",
+  "criteria": {
+    "rokakaka": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "jojosquared:rokakaka"
+          }
+        ]
+      }
+    },
+    "golden_rokakaka": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "jojosquared:golden_rokakaka"
+          }
+        ]
+      }
+    },
+    "rokakaka_pit": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "jojosquared:rokakaka_pit"
+          }
+        ]
+      }
+    }
+  }
+}

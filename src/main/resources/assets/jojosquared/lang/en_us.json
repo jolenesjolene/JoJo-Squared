@@ -1,0 +1,56 @@
+{
+  "_comment_group": "Item Group Thingies",
+  "itemgroup.jojosquared.jojosquared": "JoJo²",
+  "item.jojosquared.group_sprite": "Group Sprite",
+
+  "_comment_items": "Items!",
+  "item.jojosquared.stand_arrow": "Stand Arrow",
+  "item.jojosquared.broken_stand_arrow": "Broken Stand Arrow",
+  "item.jojosquared.stand_disc": "Stand Disc",
+  "item.jojosquared.starust_shard": "Stardust Shard",
+  "item.jojosquared.rokakaka": "Rokakaka",
+  "item.jojosquared.golden_rokakaka": "Golden Rokakaka",
+  "item.jojosquared.rokakaka_pit": "Rokakaka Pit",
+  "item.jojosquared.menacing_spoon": "Menacing Spoon",
+
+
+  "_comment_blocks": "Blocks!",
+  "item.jojosquared.starfallen_stone": "Starfallen Stone",
+
+  "_comment_discs": "Music Discs!",
+  "item.jojosquared.morioh_cho_radio": "Music Disc",
+  "item.jojosquared.morioh_cho_radio.desc": "Erthane - Morioh Cho Radio",
+  "sounds.jojosquared.morioh_cho_radio": "Euphonic Tune",
+
+  "_comment_paintings": "Paintings!",
+  "painting.jojosquared.rock_hard.title": "Rock Hard",
+  "painting.jojosquared.rock_hard.author": "A beauty eternal, untouched by time... or guilt.",
+
+  "_comment_effects": "Effects!",
+  "effect.jojosquared.menacing": "Menacing",
+  "effect.jojosquared.equivalent_exchange": "Equivalent Exchange",
+  "effect.jojosquared.plunder_friction": "Plunder Friction",
+
+
+  "_comment_deaths": "Deaths...lots of deaths...",
+  "death.jojosquared.reject_1": "%s was deemed unworthy by the Arrow.",
+  "death.jojosquared.reject_2": "%s met the Arrow's silent verdict.",
+  "death.jojosquared.reject_3": "%s could not withstand the Arrow’s will.",
+  "death.jojosquared.reject_4": "%s's dream was pierced by fate.",
+
+  "_comment_advancements": "Advancements!",
+  "advancement.jojosquared.root": "JoJo²",
+  "advancement.jojosquared.root.description": "ORA!!!",
+  "advancement.jojosquared.fate": "Do You Believe in Gravity?",
+  "advancement.jojosquared.fate.description": "Determine your fate.",
+  "advancement.jojosquared.arrow": "Relic of the Past",
+  "advancement.jojosquared.arrow.description": "Forged from the cosmos, destined to judge.",
+  "advancement.jojosquared.stand": "Evil Spirit",
+  "advancement.jojosquared.stand.description": "You feel it lurking behind you.",
+  "advancement.jojosquared.rokakaka": "Black Market Secrets",
+  "advancement.jojosquared.rokakaka.description":"A fruit sought after by many... for reasons unknown",
+  "advancement.jojosquared.hard": "In the Palm of Her Hand",
+  "advancement.jojosquared.hard.description":"Stare longingly into the hands of the Mona Lisa.",
+  "advancement.jojosquared.silly": "That Doesn’t Belong There!",
+  "advancement.jojosquared.silly.description":"Attempt (and fail) to put a Stand Disc into a jukebox."
+}

@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "jojosquared:stand_arrow"
+    },
+    "title": {
+      "translate": "advancement.jojosquared.stand"
+    },
+    "description": {
+      "translate": "advancement.jojosquared.stand.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "jojosquared:arrow",
+  "criteria": {
+    "item": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

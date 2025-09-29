@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "item.jojosquared.morioh_cho_radio.desc"
+  },
+  "length_in_seconds": 108.0,
+  "sound_event": "jojosquared:morioh_cho_radio"
+}

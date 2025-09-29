@@ -1,0 +1,13 @@
+{
+  "asset_id": "jojosquared:rock_hard",
+  "author": {
+    "color": "gray",
+    "translate": "painting.jojosquared.rock_hard.author"
+  },
+  "height": 2,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.jojosquared.rock_hard.title"
+  },
+  "width": 1
+}

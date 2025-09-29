@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#i#",
+        "D D",
+        "#i#"
+    ],
+    "key": {
+        "#": "minecraft:iron_nugget",
+        "i": "minecraft:iron_ingot",
+        "D": "minecraft:diamond"
+    },
+        "result": {
+        "id": "jojosquared:stand_disc",
+        "count": 1
+    }
+}
