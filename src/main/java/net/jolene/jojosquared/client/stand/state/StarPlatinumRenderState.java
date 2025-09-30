@@ -21,7 +21,6 @@ public class StarPlatinumRenderState extends EntityRenderState {
     public Vec3d renderOffsetPos = new Vec3d(0., 0., 0.);
 
     public float floatDistance = 0.425f;
-    public float age;
 
     public List<AnimationState> animStates;
     public AnimationState manifest = new AnimationState();

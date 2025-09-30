@@ -108,8 +108,6 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
             state.renderZ = state.desiredZ;
         }
 
-        state.age = entity.age;
-
         if (state.animStates == null)
         {
             if (entity.getOwner() != null)
