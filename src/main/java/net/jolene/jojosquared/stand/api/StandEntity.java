@@ -18,9 +18,17 @@ import java.util.List;
 
 public class StandEntity extends Entity {
     private Stand owner;
-    public AnimationState currentAnimation = null;
+    public Integer currentAnimation;
+    private AnimationState currentState;
     public List<AnimationState> animations = new ArrayList<>();
     public static final int DEFAULT_ANIM_INDEX = 2;
+
+    public AnimationState manifest = new AnimationState();
+    public AnimationState withdraw = new AnimationState();
+    public AnimationState idle = new AnimationState();
+    public AnimationState passive = new AnimationState();
+    public AnimationState default_hold = new AnimationState();
+    public AnimationState default_1 = new AnimationState();
 
     public StandEntity(EntityType<?> type, World world) {
         super(type, world);
@@ -80,33 +88,59 @@ public class StandEntity extends Entity {
         super.tick();
     }
 
-    public void setAnimations(int index)
-    {
-        if (index >= this.animations.size())
-            return;
-        setAnimation(this.animations.get(index));
-    }
+    private int pose = Integer.MIN_VALUE;
+    private int lastPose = pose;
+    private AnimationState current;
+    private int endTick = Integer.MIN_VALUE;
+    public void setAnimation(int pose)
+    { this.setAnimation(pose, Integer.MIN_VALUE); }
 
-    public void setAnimation(AnimationState state)
+    public void setAnimation(int pose, Integer length)
     {
-        this.currentAnimation = state;
+        if (length != Integer.MIN_VALUE)
+            this.endTick = this.age + length;
+        this.pose = pose;
+        if (this.current != null) this.current.stop();
     }
 
     @Environment(EnvType.CLIENT)
     private void updateAnimationStates() {
-        if (animations.isEmpty())
-            return;
-
-        AnimationState defaultAnim = animations.get(DEFAULT_ANIM_INDEX);
-
-        //defaultAnim.startIfNotRunning(this.age);
-        if (currentAnimation != null) {
-            defaultAnim.stop();
-            currentAnimation.start(this.age);
-            //currentAnimation = null;
+        if (this.current != null && this.endTick != Integer.MIN_VALUE)
+        {
+            if (this.endTick <= this.age)
+            {
+                current.stop();
+                lastPose = pose;
+                current = idle;
+                current.start(this.age);
+                this.endTick = Integer.MIN_VALUE;
+                return;
+            }
         }
-        else {
-            defaultAnim.startIfNotRunning(this.age);
+
+        if (lastPose != pose)
+        {
+            switch (pose)
+            {
+                case Animations.MANIFEST-> current = manifest;
+                case Animations.WITHDRAW-> current = withdraw;
+                case Animations.PASSIVE -> current = passive;
+                case Animations.DEFAULT_HOLD-> current = default_hold;
+                case Animations.DEFAULT_1-> current = default_1;
+                default -> current = idle;
+            }
+
+            current.start(this.age);
         }
+        lastPose = pose;
+    }
+
+    public interface Animations {
+        int MANIFEST = 0;
+        int WITHDRAW = 1;
+        int IDLE = 2;
+        int PASSIVE = 3;
+        int DEFAULT_HOLD = 4;
+        int DEFAULT_1 = 5;
     }
 }

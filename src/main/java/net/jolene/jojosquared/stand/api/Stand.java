@@ -10,13 +10,15 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /// The Stand class, acting as a home for all the attached parts.
 /// Extend this class to make a stand & provide functionality.
@@ -40,10 +42,23 @@ public abstract class Stand {
         this.abilities = abilities;
     }
 
+    private List<Pair<Integer, Runnable>> tickRuns = new ArrayList<>();
     public void tick() {
         // this should literally never happen because tick is called by the entity
         if (this.entity == null)
             throw new IllegalStateException("Stand was ticked but this.entity == null!");
+
+        Iterator<Pair<Integer, Runnable>> iterator = tickRuns.iterator();
+        while (iterator.hasNext()) {
+            Pair<Integer, Runnable> run = iterator.next();
+            int waiting = run.getLeft();
+            if (waiting <= 0) {
+                run.getRight().run();
+                iterator.remove();
+            } else {
+                run.setLeft(waiting - 1);
+            }
+        }
 
         if (!this.owner.getWorld().isClient) {
             setPosToOwner();
@@ -58,13 +73,19 @@ public abstract class Stand {
         World world = owner.getWorld();
         if (entity != null)
         {
-            entity.remove(Entity.RemovalReason.DISCARDED);
-            entity = null;
+            tickRuns.add(new Pair<>(5, ()->{
+                entity.remove(Entity.RemovalReason.DISCARDED);
+                entity = null;
+            }));
+
             JoJoSquared.LOGGER.info("[{} (JoJoSquared)]: Removed entity!", (this.owner.getWorld().isClient ? "Client" : "Server"));
         }
 
         if (world.isClient)
         {
+            if (entity != null)
+                entity.setAnimation(StandEntity.Animations.WITHDRAW);
+
             ModNetworking.sendMessageC2S("base_stand_c2s", StandC2SContext.DESUMMON_STAND);
         }
     }
@@ -145,6 +166,8 @@ public abstract class Stand {
     public void setOwner(LivingEntity owner) { this.owner = owner; }
     public @Nullable LivingEntity getOwner() { return this.owner; }
 
+    public @Nullable StandEntity getEntity() { return entity; }
+
     public void setPos(Vec3d pos) {if (this.entity != null) this.entity.setPosition(pos); }
     public void setPosToOwner() {
         if (this.entity == null || this.owner == null)
@@ -162,8 +185,8 @@ public abstract class Stand {
     public void setCurrentAbilityIndex(int index) { this.currentAbilityIndex = index % this.abilities.size(); }
     public void incrementAbilityIndex() { setCurrentAbilityIndex(this.currentAbilityIndex + 1); }
     public StandAbility getCurrentAbility() { return abilities.get(currentAbilityIndex); }
-    public void playAnimation(int animIndex)
-    { if (this.entity != null) { this.entity.setAnimations(animIndex); } }
+    public void playAnimation(int pose)
+    { if (this.entity != null) { this.entity.setAnimation(pose); } }
 
     public Vec3d getRenderOffset() { return renderOffset; }
     public void setRenderOffset(Vec3d offset) { this.renderOffset = offset; }
@@ -267,7 +290,7 @@ public abstract class Stand {
                         if (client.world.getEntityById(standId) instanceof StandEntity stand)
                         {
                             ownerStand.entity = stand;
-                            ownerStand.entity.setAnimations(0);
+                            ownerStand.entity.setAnimation(StandEntity.Animations.MANIFEST, 10);
                             stand.setOwner(ownerStand);
                             JoJoSquared.LOGGER.info("[Client (JoJo Squared/Networking|Stand)]: Setup stand for entity with id {}", ownerId);
                         }

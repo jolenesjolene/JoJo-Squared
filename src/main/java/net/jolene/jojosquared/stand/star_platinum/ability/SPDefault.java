@@ -2,6 +2,7 @@ package net.jolene.jojosquared.stand.star_platinum.ability;
 
 import net.jolene.jojosquared.stand.api.PressContext;
 import net.jolene.jojosquared.stand.api.StandAbility;
+import net.jolene.jojosquared.stand.api.StandEntity;
 import net.jolene.jojosquared.stand.star_platinum.StarPlatinumStand;
 import net.minecraft.util.math.Vec3d;
 
@@ -21,7 +22,7 @@ public class SPDefault extends StandAbility {
 
         if (context == PressContext.PRIMARY)
         {
-            parent.playAnimation(4);
+            parent.playAnimation(StandEntity.Animations.DEFAULT_HOLD);
         } else if (context == PressContext.SECONDARY) {return;}
     }
 
@@ -32,7 +33,7 @@ public class SPDefault extends StandAbility {
 
         if (context == PressContext.PRIMARY)
         {
-            parent.playAnimation(5);
+            parent.playAnimation(StandEntity.Animations.DEFAULT_1);
             parent.addRenderOffset(new Vec3d(0f, 0f, -1.25f));
             cooldown = 20;
         }
@@ -60,7 +61,10 @@ public class SPDefault extends StandAbility {
             if (lastPressContext == PressContext.PRIMARY)
             {
                 if (lastCooldown != 0)
+                {
+                    parent.playAnimation(StandEntity.Animations.IDLE);
                     parent.addRenderOffset(new Vec3d(0f, 0f, 1.25f));
+                }
             }
         }
     }

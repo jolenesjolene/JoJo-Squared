@@ -32,7 +32,12 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 	private final ModelPart RightLeg;
 	private final ModelPart LeftLeg;
 
-	private final List<StandAnimation> animations = new ArrayList<>();
+	public Animation manifest;
+	public Animation withdraw;
+	public Animation idle;
+	public Animation passive;
+	public Animation default_hold;
+	public Animation default_1;
 
 	public StarPlatinumModel(ModelPart root) {
 		super(root);
@@ -45,7 +50,13 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 		this.LeftArm = this.Body.getChild("LeftArm");
 		this.RightLeg = this.StarPlatinum.getChild("RightLeg");
 		this.LeftLeg = this.StarPlatinum.getChild("LeftLeg");
-	}
+
+		this.manifest = StarPlatinumAnims.manifest.createAnimation(root);
+		this.withdraw = StarPlatinumAnims.withdraw.createAnimation(root);
+		this.idle = StarPlatinumAnims.idle.createAnimation(root);
+		this.passive = StarPlatinumAnims.passive.createAnimation(root);
+		this.default_hold = StarPlatinumAnims.default_hold.createAnimation(root);
+		this.default_1 = StarPlatinumAnims.default_1.createAnimation(root);	}
 
 	public static TexturedModelData getTexturedModelData() {
 		ModelData modelData = new ModelData();
@@ -79,26 +90,11 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 	@Override
 	public void setAngles(StarPlatinumRenderState state) {
 		super.setAngles(state);
-
-		if (animations.isEmpty())
-		{
-			int index = 0;
-			for (Field f : StarPlatinumAnims.class.getFields())
-			{
-				try
-				{
-					f.setAccessible(true);
-					AnimationDefinition anim = (AnimationDefinition) f.get(null);
-					animations.add(new StandAnimation(anim.createAnimation(root), state.animStates.get(index++)));
-				} catch (Exception e) {
-					throw new RuntimeException(e); // fatal crash. nothing we can do if a anim is missing
-				}
-			}
-		}
-
-		for (StandAnimation anim : animations)
-		{
-			anim.animation().apply(anim.state(), state.age);
-		}
+		this.manifest.apply(state.manifest, state.age);
+		this.withdraw.apply(state.withdraw, state.age);
+		this.idle.apply(state.idle, state.age);
+		this.passive.apply(state.passive, state.age);
+		this.default_hold.apply(state.default_hold, state.age);
+		this.default_1.apply(state.default_1, state.age);
 	}
 }

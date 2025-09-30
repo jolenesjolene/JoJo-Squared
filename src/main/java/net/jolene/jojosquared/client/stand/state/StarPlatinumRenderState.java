@@ -24,6 +24,12 @@ public class StarPlatinumRenderState extends EntityRenderState {
     public float age;
 
     public List<AnimationState> animStates;
+    public AnimationState manifest = new AnimationState();
+    public AnimationState withdraw = new AnimationState();
+    public AnimationState idle = new AnimationState();
+    public AnimationState passive = new AnimationState();
+    public AnimationState default_hold = new AnimationState();
+    public AnimationState default_1 = new AnimationState();
 
     public StarPlatinumRenderState()
     { }

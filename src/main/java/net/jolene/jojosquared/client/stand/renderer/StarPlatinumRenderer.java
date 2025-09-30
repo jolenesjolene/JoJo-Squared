@@ -105,12 +105,18 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
                 state.animStates = entity.getOwner().createAnimationStates();
         }
 
-        if (state.animStates != null)
-        {
-            int index = 0;
-            for (AnimationState animState : state.animStates)
-            { animState.copyFrom(state.entity.animations.get(index++)); }
-        }
+        state.manifest.copyFrom(state.entity.manifest);
+        state.withdraw.copyFrom(state.entity.withdraw);
+        state.passive.copyFrom(state.entity.passive);
+        state.idle.copyFrom(state.entity.idle);
+        state.default_hold.copyFrom(state.entity.default_hold);
+        state.default_1.copyFrom(state.entity.default_1);
+//        if (state.animStates != null)
+//        {
+//            int index = 0;
+//            for (AnimationState animState : state.animStates)
+//            { animState.copyFrom(state.entity.animations.get(index++)); }
+//        }
     }
 
     private void determinePos(StarPlatinumRenderState state, MatrixStack matrices)
