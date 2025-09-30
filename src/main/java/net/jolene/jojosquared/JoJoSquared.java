@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 
 import net.jolene.jojosquared.block.ModBlocks;
 import net.jolene.jojosquared.effect.ModEffects;
+import net.jolene.jojosquared.entity.ModEntities;
 import net.jolene.jojosquared.item.ModItemGroups;
 import net.jolene.jojosquared.item.ModItems;
 import net.jolene.jojosquared.network.payload.ModNetworking;
@@ -30,6 +31,7 @@ public class JoJoSquared implements ModInitializer {
 		ModParticles.registerModParticles();
 		ModSounds.registerModSounds();
 		ModEffects.registerEffects();
+		ModEntities.registerModEntities();
 		ModNetworking.registerPackets();
 
 		LOGGER.info("ORA! (JoJo²)");

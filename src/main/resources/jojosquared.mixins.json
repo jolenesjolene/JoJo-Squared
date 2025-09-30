@@ -3,7 +3,7 @@
   "package": "net.jolene.jojosquared.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ExampleMixin"
+    "StandOwnerImpl"
   ],
   "injectors": {
     "defaultRequire": 1

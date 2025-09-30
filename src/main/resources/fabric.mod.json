@@ -23,7 +23,7 @@
 			"net.jolene.jojosquared.JoJoSquaredDataGenerator"
 		],
 		"client": [
-			"net.jolene.jojosquared.JoJoSquaredClient"
+			"net.jolene.jojosquared.client.JoJoSquaredClient"
 		]
 	},
 	"mixins": [

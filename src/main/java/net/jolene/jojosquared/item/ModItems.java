@@ -44,7 +44,7 @@ public class ModItems {
     }
 
     public static void registerModItems() {
-        JoJoSquared.LOGGER.info("Registering Items for " + JoJoSquared.MOD_ID);
+        JoJoSquared.LOGGER.info("Registering Items for {}", JoJoSquared.MOD_ID);
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(STAND_ARROW);

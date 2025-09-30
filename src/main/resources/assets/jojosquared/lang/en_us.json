@@ -52,5 +52,9 @@
   "advancement.jojosquared.hard": "In the Palm of Her Hand",
   "advancement.jojosquared.hard.description":"Stare longingly into the hands of the Mona Lisa.",
   "advancement.jojosquared.silly": "That Doesn’t Belong There!",
-  "advancement.jojosquared.silly.description":"Attempt (and fail) to put a Stand Disc into a jukebox."
+  "advancement.jojosquared.silly.description":"Attempt (and fail) to put a Stand Disc into a jukebox.",
+
+  "_comment_keybinds": "beep boop i'm straight keybinding it rn",
+  "category.jojosquared.stand": "JoJo² Stands",
+  "key.jojosquared.summon_stand": "Manifest"
 }

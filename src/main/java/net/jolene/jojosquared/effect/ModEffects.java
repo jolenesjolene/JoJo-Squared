@@ -25,6 +25,6 @@ public class ModEffects {
         }
 
         public static void registerEffects() {
-            JoJoSquared.LOGGER.info("Registering Effects for" + JoJoSquared.MOD_ID);
+            JoJoSquared.LOGGER.info("Registering Effects for {}", JoJoSquared.MOD_ID);
         }
     }

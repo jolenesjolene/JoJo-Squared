@@ -70,9 +70,10 @@ public class ModNetworking {
                     try
                     {
                         m.invoke(null, varargs);
-                        continue;
                     }
-                    catch (Exception ignored) { }
+                    catch (Exception ex) {
+                        JoJoSquared.LOGGER.warn("[JoJoSquared/Networking]: Got error while invoking method \"{}\" in class \"{}\" (ignored)", m.getName(), clazz.getName(), ex);
+                    }
                 }
             }
         });
