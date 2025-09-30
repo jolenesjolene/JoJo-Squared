@@ -7,7 +7,6 @@ import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
 import net.jolene.jojosquared.stand.api.network.StandC2SContext;
 import net.jolene.jojosquared.stand.api.network.StandS2CContext;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
@@ -95,7 +94,7 @@ public abstract class Stand {
         }
     }
 
-    public void remove() {
+    public void withdraw() {
         isSummoned = false;
         World world = owner.getWorld();
         if (entity != null)
@@ -141,6 +140,20 @@ public abstract class Stand {
                 ModNetworking.sendMessageS2C(player, "base_stand_s2c", owner.getId(), entity.getId(), StandS2CContext.ENTITY_SUMMONED_STAND);
             });
         }
+    }
+
+    /// Called when the owner of this stand gets removed.
+    /// Cleans up & destroys the stand completely.
+    public void onRemove()
+    {
+        if (entity != null)
+        {
+            entity.discard();
+            entity = null;
+        }
+        owner = null;
+        abilities = null;
+        renderOffset = null;
     }
 
     private int beginAtkTick = 0;
@@ -255,7 +268,7 @@ public abstract class Stand {
                     if (stand == null)
                         return; // idk how this happened lmao
 
-                    stand.remove();
+                    stand.withdraw();
                     JoJoSquared.LOGGER.info("[Server (JoJo Squared/Networking|Stand)]: De-summoned stand for player \"{}\"", serverPlayer.getName().getLiteralString());
                 }
                 default -> JoJoSquared.LOGGER.warn("[Server (JoJo Squared/Networking|Stand)]: Got unknown C2S packet context: {}", context);

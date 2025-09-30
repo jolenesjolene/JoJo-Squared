@@ -40,7 +40,7 @@ public class SummonStandKey extends InputModule {
                     client.player.playSound(ModSounds.MANIFEST_STAND, 1f, pitch);
                 }
                 else {
-                    stand.remove();
+                    stand.withdraw();
                     JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Removing stand");
                     float pitch = 0.9f + client.player.getRandom().nextFloat() * 0.2f;
                     client.player.playSound(ModSounds.WITHDRAW_STAND, 1f, pitch);
