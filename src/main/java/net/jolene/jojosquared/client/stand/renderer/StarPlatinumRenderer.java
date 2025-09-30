@@ -1,5 +1,6 @@
 package net.jolene.jojosquared.client.stand.renderer;
 
+import com.mojang.blaze3d.opengl.GlStateManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
@@ -35,7 +36,7 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
 
     private RenderLayer getRenderLayer()
     {
-        return RenderLayer.getEntityCutout(JoJoSquared.location("textures/entity/stand/star_platinum.png"));
+        return RenderLayer.getEntityCutoutNoCull(JoJoSquared.location("textures/entity/stand/star_platinum.png"));
     }
 
     @Override
@@ -63,7 +64,9 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         addRenderOffset(state, matrices);
 
         this.model.setAngles(state);
+        GlStateManager._disableCull();
         this.model.render(matrices, vertexConsumers.getBuffer(getRenderLayer()), light, OverlayTexture.DEFAULT_UV);
+        GlStateManager._enableCull();
 
         matrices.pop();
         // super.render(state, matrices, vertexConsumers, light); // not needed, just renders leads and such
