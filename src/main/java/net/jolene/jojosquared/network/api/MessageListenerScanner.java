@@ -108,7 +108,7 @@ public class MessageListenerScanner {
                 JoJoSquared.LOGGER.info("Found @MessageListener in {}", className);
                 return Optional.of(c);
             }
-        } catch (ClassNotFoundException | LinkageError ignored) { }
+        } catch (ClassNotFoundException | RuntimeException | LinkageError ignored) { }
         return Optional.empty();
     }
 }

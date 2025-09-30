@@ -12,6 +12,7 @@ import java.util.List;
 @Environment(EnvType.CLIENT)
 public class StarPlatinumRenderState extends EntityRenderState {
     public StandEntity entity;
+    public boolean owns;
     public float renderYaw, renderPitch;
     public float realYaw, realPitch;
 

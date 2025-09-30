@@ -23,10 +23,6 @@ public class ModNetworking {
         PayloadTypeRegistry.playS2C().register(MessageS2CPayload.ID, MessageS2CPayload.CODEC);
         PayloadTypeRegistry.playC2S().register(MessageC2SPayload.ID, MessageC2SPayload.CODEC);
 
-        ClientPlayNetworking.registerGlobalReceiver(MessageS2CPayload.ID, (payload, context) -> {
-            context.client().execute(() -> PacketRegistry.invoke(PacketRegistry.MESSAGES2C, null, payload.args()));
-        });
-
         ServerPlayNetworking.registerGlobalReceiver(MessageC2SPayload.ID, (payload, context) -> {
             context.server().execute(()-> PacketRegistry.invoke(PacketRegistry.MESSAGEC2S, context.player(), payload.args()));
         });

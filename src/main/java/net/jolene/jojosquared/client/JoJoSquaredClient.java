@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -13,6 +14,8 @@ import net.jolene.jojosquared.client.stand.model.StarPlatinumModel;
 import net.jolene.jojosquared.client.stand.renderer.StarPlatinumRenderer;
 import net.jolene.jojosquared.entity.ModEntities;
 import net.jolene.jojosquared.input.ModKeyBindings;
+import net.jolene.jojosquared.network.impl.PacketRegistry;
+import net.jolene.jojosquared.network.payload.MessageS2CPayload;
 import net.jolene.jojosquared.particle.EquivalentExchange;
 import net.jolene.jojosquared.particle.Menacing;
 import net.jolene.jojosquared.particle.ModParticles;
@@ -32,5 +35,9 @@ public class JoJoSquaredClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.STAR_PLATINUM, StarPlatinumRenderer::new);
 
         ModKeyBindings.registerModKeys();
+
+        ClientPlayNetworking.registerGlobalReceiver(MessageS2CPayload.ID, (payload, context) -> {
+            context.client().execute(() -> PacketRegistry.invoke(PacketRegistry.MESSAGES2C, null, payload.args()));
+        });
     }
 }

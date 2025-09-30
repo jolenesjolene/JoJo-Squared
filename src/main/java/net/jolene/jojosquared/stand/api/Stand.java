@@ -7,6 +7,7 @@ import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
 import net.jolene.jojosquared.stand.api.network.StandC2SContext;
 import net.jolene.jojosquared.stand.api.network.StandS2CContext;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
@@ -21,7 +22,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /// The Stand class, acting as a home for all the attached parts.
 /// Extend this class to make a stand & provide functionality.
@@ -35,10 +35,28 @@ public abstract class Stand {
     private LivingEntity owner;
     private boolean isSummoned = false;
 
+    private boolean instanceOwns = false;
+
     private Vec3d renderOffset = new Vec3d(0., 0., 0.);
 
     public Stand(LivingEntity owner, EntityType<? extends StandEntity> type)
-    { this.owner = owner; this.type = type; }
+    {
+        this.owner = owner;
+        this.type = type;
+
+        if (owner.getWorld().isClient)
+        {
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client.player == null)
+                return; // automatically set to false, don't have to do anything here
+
+            this.instanceOwns = owner.equals(client.player);
+        }
+        else { // server
+            this.instanceOwns = true; // kinda?
+        }
+        JoJoSquared.LOGGER.info("[{} (JoJoSquared/Stand|Ctor)]: Created Stand class for entity {} ({})", (this.owner.getWorld().isClient ? "Client" : "Server"), owner.getClass().getSimpleName(), (instanceOwns ? "owned by instance" : "not owned by instance"));
+    }
     public void setAbilities(List<? extends StandAbility> abilities)
     {
         assert abilities.size() <= 4 : "Attempted to set abilities to a list bigger than 4!";
@@ -63,9 +81,7 @@ public abstract class Stand {
             }
         }
 
-        if (!this.owner.getWorld().isClient) {
-            setPosToOwner();
-        }
+        if (instanceOwns) { setPosToOwner(); }
 
         for (StandAbility ability : abilities)
         { ability.tick(); }

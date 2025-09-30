@@ -8,6 +8,7 @@ import net.jolene.jojosquared.client.stand.model.StarPlatinumModel;
 import net.jolene.jojosquared.client.stand.state.StarPlatinumRenderState;
 import net.jolene.jojosquared.stand.api.Stand;
 import net.jolene.jojosquared.stand.api.StandEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -93,8 +94,15 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
                                   float tickProgress) {
         super.updateRenderState(entity, state, tickProgress); // sets standingEyeHeight, x, y, z, etc...
 
-        if (entity.getOwner() == null)
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null)
             return;
+        if (entity.getOwner() == null || entity.getOwner().getOwner() == null)
+            return;
+
+        state.owns = entity.getOwner().getOwner().equals(client.player);
+//        if (!state.owns)
+//            return;
 
         state.entity = entity;
 

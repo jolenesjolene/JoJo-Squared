@@ -3,6 +3,7 @@ package net.jolene.jojosquared.stand.api;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StandEntity extends Entity {
+    private boolean instanceOwns = false;
     private Stand owner;
     public Integer currentAnimation;
     private AnimationState currentState;
@@ -40,7 +42,20 @@ public class StandEntity extends Entity {
     {
         this.owner = owner;
         this.animations = owner.createAnimationStates();
-        JoJoSquared.LOGGER.info("[{} (JoJoSquared)]: Set Owner", (this.getWorld().isClient ? "Client" : "Server"));
+
+        if (this.getWorld().isClient)
+        {
+            if (owner.getOwner() == null)
+                return;
+
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client.player == null)
+                return;
+
+            this.instanceOwns = owner.getOwner().equals(client.player);
+        }
+
+        JoJoSquared.LOGGER.info("[{} (JoJoSquared)]: Set Owner ({})", (this.getWorld().isClient ? "Client" : "Server"), (instanceOwns ? "owned by instance" : "not owned by instance"));
     }
 
     public Stand getOwner() {
