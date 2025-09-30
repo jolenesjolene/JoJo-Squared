@@ -5,4 +5,5 @@ public interface StandC2SContext {
     int DESUMMON_STAND = 1;
     int ATTACK = 2;
     int RELEASE = 3;
+    int DAMAGE_ENTITY = 4;
 }

@@ -104,4 +104,14 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 		this.default_2.apply(state.default_2, state.age);
 		this.default_3.apply(state.default_3, state.age);
 	}
+
+	public void setTorsoAngles(float pitch, float yaw, float roll)
+	{
+		this.Body.setAngles((float) Math.toRadians(pitch), (float) Math.toRadians(yaw), (float) Math.toRadians(roll));
+	}
+
+	public void setHeadAngles(float pitch, float yaw, float roll)
+	{
+		this.Head.setAngles((float) Math.toRadians(pitch), (float) Math.toRadians(yaw), (float) Math.toRadians(roll));
+	}
 }

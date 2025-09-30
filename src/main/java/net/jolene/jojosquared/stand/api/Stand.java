@@ -7,6 +7,9 @@ import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
 import net.jolene.jojosquared.stand.api.network.StandC2SContext;
 import net.jolene.jojosquared.stand.api.network.StandS2CContext;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.state.EntityRenderState;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -66,6 +69,14 @@ public abstract class Stand {
 
         for (StandAbility ability : abilities)
         { ability.tick(); }
+    }
+
+    public void render(EntityRenderState state, MatrixStack matrices, float age, VertexConsumerProvider vertexConsumers)
+    {
+        for (StandAbility ability : abilities)
+        {
+            ability.render(state, matrices, age, vertexConsumers);
+        }
     }
 
     public void remove() {
@@ -257,6 +268,29 @@ public abstract class Stand {
                     default -> JoJoSquared.LOGGER.warn("[Server (JoJo Squared/Networking|Stand)]: Got unknown C2S atk packet context: {}", context);
                 }
             } catch (Exception ignored) { }
+        }
+
+        @MessageListener("base_stand_atk_c2s")
+        public static void standDamageEntityC2S(@Nullable ServerPlayerEntity serverPlayer, Integer entityId, Integer damage, Integer context)
+        {
+            assert serverPlayer != null : "Got S2C on a C2S packet?";
+            assert context == StandC2SContext.DAMAGE_ENTITY : "Got a packet other than DAMAGE_ENTITY for standDamageEntityC2S!";
+
+            JoJoSquared.LOGGER.info("[Server (JoJo Squared/Networking|Stand)]: Got damage packet from player \"{}\"", serverPlayer.getName().getLiteralString());
+
+            IStandOwner owner = IStandOwner.get(serverPlayer);
+            Stand ownerStand = owner.jojosquared$getStand();
+            if (ownerStand == null)
+                return; // how?? how even???
+
+            ServerWorld world = serverPlayer.getWorld();
+            if (world == null)
+                return; // probably cheating but wtv (or bad lag lol)
+
+            if (world.getEntityById(entityId) instanceof LivingEntity entity)
+            {
+                entity.damage(world, world.getDamageSources().playerAttack(serverPlayer), damage);
+            }
         }
 
         @MessageListener("base_stand_s2c")

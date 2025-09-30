@@ -13,7 +13,6 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
@@ -22,7 +21,7 @@ import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatinumRenderState> {
-    private final EntityModel<StarPlatinumRenderState> model;
+    private final StarPlatinumModel<StandEntity> model;
 
     public StarPlatinumRenderer(EntityRendererFactory.Context context) {
         super(context);
@@ -51,6 +50,8 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         if (ownerEnt == null)
             return;
 
+        owner.render(state, matrices, state.age, vertexConsumers);
+
         matrices.push();
 
         matrices.translate(-state.x, -state.y, -state.z); // reset pos so we have access to the raw world coords
@@ -59,11 +60,25 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         matrices.translate(0f, state.standingEyeHeight + Math.sin(state.age / 12.0) * 0.125, 0f);
         matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(state.renderYaw));
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
-        matrices.translate(state.floatDistance, 0F, state.floatDistance);
 
-        addRenderOffset(state, matrices);
+        if (state.entity.idle.isRunning() || (state.entity.manifest.isRunning() || state.entity.withdraw.isRunning()))
+        {
+            addRenderOffset(state, matrices);
 
-        this.model.setAngles(state);
+            this.model.setAngles(state);
+
+            float modelPitch = (state.renderPitch / 2.0f) - 270.0f;
+            this.model.setTorsoAngles(modelPitch, 0.0f, 0.0f);
+            this.model.setHeadAngles(modelPitch, 0.0f, 0.0f);
+            matrices.translate(state.floatDistance, 0F, state.floatDistance);
+        }
+        else {
+            this.model.setAngles(state);
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(state.renderPitch - 180.0f));
+            matrices.translate(state.floatDistance, 0F, -state.floatDistance);
+            addRenderOffset(state, matrices);
+        }
+
         GlStateManager._disableCull();
         this.model.render(matrices, vertexConsumers.getBuffer(getRenderLayer()), light, OverlayTexture.DEFAULT_UV);
         GlStateManager._enableCull();
@@ -84,7 +99,7 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         state.entity = entity;
 
         state.realYaw = entity.getBodyYaw(); // left-right
-        state.realPitch = entity.getPitch(); // up-down
+        state.realPitch = (entity.getPitch() - 180.f) % 360.0f; // up-down
 
         float lerpFactor = 0.1f;
         state.renderYaw = MathHelper.lerpAngleDegrees(lerpFactor, state.renderYaw, state.realYaw);
