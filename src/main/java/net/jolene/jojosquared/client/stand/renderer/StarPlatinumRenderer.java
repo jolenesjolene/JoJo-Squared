@@ -40,6 +40,9 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
 
     @Override
     public void render(StarPlatinumRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+        if (state.entity == null)
+            return;
+
         Stand owner = state.entity.getOwner();
         if (owner == null)
             return;
