@@ -32,8 +32,5 @@ public class JoJoSquaredClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.STAR_PLATINUM, StarPlatinumRenderer::new);
 
         ModKeyBindings.registerModKeys();
-        ClientTickEvents.END_CLIENT_TICK.register(minecraftClient -> {
-            ModKeyBindings.handleInputs();
-        });
     }
 }

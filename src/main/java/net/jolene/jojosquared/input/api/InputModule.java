@@ -14,5 +14,7 @@ public abstract class InputModule {
     }
 
     public KeyBinding getBinding() { return binding; }
-    public abstract void invoke(boolean pressed);
+    /// The main method of the InputModule.
+    /// @return True if it shouldn't interfere with inputs bound to the same key, otherwise false (stop Minecraft's default keybinding)
+    public abstract boolean invoke(boolean pressed);
 }

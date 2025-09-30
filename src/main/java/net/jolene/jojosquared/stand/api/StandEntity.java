@@ -18,6 +18,7 @@ public class StandEntity extends Entity {
     private Stand owner;
     public AnimationState currentAnimation = null;
     public List<AnimationState> animations = new ArrayList<>();
+    public static final int DEFAULT_ANIM_INDEX = 0;
 
     public StandEntity(EntityType<?> type, World world) {
         super(type, world);
@@ -77,26 +78,28 @@ public class StandEntity extends Entity {
         super.tick();
     }
 
+    public void setAnimations(int index)
+    {
+        if (index >= this.animations.size())
+            return;
+        setAnimation(this.animations.get(index));
+    }
+
+    public void setAnimation(AnimationState state)
+    {
+        this.currentAnimation = state;
+    }
+
     private void updateAnimationStates() {
         if (animations.isEmpty())
-            throw new IllegalStateException("Animations was 0!");
-
-        if (currentAnimation == null)
-        {
-            currentAnimation = animations.getFirst();
-            currentAnimation.start(this.age);
             return;
-        }
 
-        for (AnimationState anim : animations)
-        {
-            if (anim.equals(currentAnimation))
-            {
-                anim.startIfNotRunning(this.age);
-            }
-            else {
-                anim.stop();
-            }
+        AnimationState defaultAnim = animations.get(DEFAULT_ANIM_INDEX);
+
+        defaultAnim.startIfNotRunning(this.age);
+        if (currentAnimation != null) {
+            currentAnimation.start(this.age);
+            currentAnimation = null;
         }
     }
 }

@@ -1,8 +1,8 @@
 package net.jolene.jojosquared.stand.api;
 
-public enum PressContext {
+public interface PressContext {
     /// Usually left click
-    PRIMARY,
+    int PRIMARY = 0;
     /// Usually right click
-    SECONDARY
+    int SECONDARY = 1;
 }

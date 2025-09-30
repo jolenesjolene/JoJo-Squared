@@ -10,8 +10,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public abstract class Stand {
     private int currentAbilityIndex = 0;
     private LivingEntity owner;
     private boolean isSummoned = false;
+
+    private Vec3d renderOffset = new Vec3d(0., 0., 0.);
 
     public Stand(LivingEntity owner, EntityType<? extends StandEntity> type)
     { this.owner = owner; this.type = type; }
@@ -49,6 +53,9 @@ public abstract class Stand {
             this.entity.setBodyYaw(this.owner.getBodyYaw());
             this.entity.setHeadYaw(this.owner.getHeadYaw());
         }
+
+        for (StandAbility ability : abilities)
+        { ability.tick(); }
     }
 
     public void remove() {
@@ -92,6 +99,50 @@ public abstract class Stand {
         }
     }
 
+    private int beginAtkTick = 0;
+    public final void attack(int pressContext)
+    {
+        if (!isSummoned || this.entity  == null)
+        { return; }
+
+        World world = owner.getWorld();
+        if (world.isClient())
+        {
+            this.beginAtkTick = this.entity.age;
+            getCurrentAbility().actionPress(pressContext);
+            ModNetworking.sendMessageC2S("base_stand_atk_c2s", 0, currentAbilityIndex, StandC2SContext.ATTACK, pressContext);
+        }
+        else {
+            ServerWorld sworld = (ServerWorld)world;
+            sworld.getPlayers().forEach(player->{
+                ModNetworking.sendMessageS2C(player, "base_stand_atk_s2c", 0, currentAbilityIndex, StandS2CContext.ATTACK, pressContext);
+            });
+        }
+    }
+
+    public final void releaseAtk(int pressContext)
+    {
+        if (!isSummoned || this.entity  == null)
+            return;
+
+        World world = owner.getWorld();
+
+        this.beginAtkTick = 0;
+        int holdTime = this.entity.age-beginAtkTick;
+
+        if (world.isClient())
+        {
+            getCurrentAbility().actionRelease(pressContext, holdTime);
+            ModNetworking.sendMessageC2S("base_stand_atk_c2s", holdTime, currentAbilityIndex, StandC2SContext.RELEASE, pressContext);
+        }
+        else {
+            ServerWorld sworld = (ServerWorld)world;
+            sworld.getPlayers().forEach(player->{
+                ModNetworking.sendMessageS2C(player, "base_stand_atk_s2c", holdTime, currentAbilityIndex, StandC2SContext.RELEASE, pressContext);
+            });
+        }
+    }
+
     public boolean isSummoned()
     { return this.isSummoned; }
 
@@ -100,11 +151,14 @@ public abstract class Stand {
 
     public void setCurrentAbilityIndex(int index) { this.currentAbilityIndex = index % this.abilities.size(); }
     public void incrementAbilityIndex() { setCurrentAbilityIndex(this.currentAbilityIndex + 1); }
+    public StandAbility getCurrentAbility() { return abilities.get(currentAbilityIndex); }
+    public void playAnimation(int animIndex)
+    { if (this.entity != null) { this.entity.setAnimations(animIndex); } }
 
-    public StandAbility getCurrentAbility()
-    {
-        return abilities.get(currentAbilityIndex);
-    }
+    public Vec3d getRenderOffset() { return renderOffset; }
+    public void setRenderOffset(Vec3d offset) { this.renderOffset = offset; }
+    public void addRenderOffset(Vec3d offset) { this.renderOffset = this.renderOffset.add(offset); }
+    public void clearRenderOffset() { this.renderOffset = new Vec3d(0.,0., 0.); }
 
     public abstract int animationCount();
     public List<AnimationState> createAnimationStates()
@@ -146,6 +200,30 @@ public abstract class Stand {
                 }
                 default -> JoJoSquared.LOGGER.warn("[Server (JoJo Squared/Networking|Stand)]: Got unknown C2S packet context: {}", context);
             }
+        }
+
+        @MessageListener("base_stand_atk_c2s")
+        public static void standAtkC2S(@Nullable ServerPlayerEntity serverPlayer, Integer holdLength, Integer abilityIndex, Integer context, Integer pressContext)
+        {
+            assert serverPlayer != null : "Got S2C on a C2S packet?";
+            assert context == StandC2SContext.ATTACK || context == StandC2SContext.RELEASE : "Got a packet other than ATTACK/RELEASE for standAtkC2S!";
+
+            JoJoSquared.LOGGER.info("[Server (JoJo Squared/Networking|Stand)]: Got atk packet from player \"{}\"", serverPlayer.getName().getLiteralString());
+
+            IStandOwner owner = IStandOwner.get(serverPlayer);
+            Stand ownerStand = owner.jojosquared$getStand();
+            if (ownerStand == null)
+                return; // how?? how even???
+
+            try
+            {
+                switch (context)
+                {
+                    case StandC2SContext.ATTACK -> ownerStand.abilities.get(abilityIndex).actionPress(pressContext);
+                    case StandS2CContext.RELEASE -> ownerStand.abilities.get(abilityIndex).actionRelease(pressContext, holdLength);
+                    default -> JoJoSquared.LOGGER.warn("[Server (JoJo Squared/Networking|Stand)]: Got unknown C2S atk packet context: {}", context);
+                }
+            } catch (Exception ignored) { }
         }
 
         @MessageListener("base_stand_s2c")

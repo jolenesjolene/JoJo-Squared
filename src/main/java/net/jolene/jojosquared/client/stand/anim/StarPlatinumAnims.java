@@ -132,13 +132,12 @@ public class StarPlatinumAnims {
 
 	public static final AnimationDefinition default_1 = AnimationDefinition.Builder.create(0.8F)
 			.addBoneAnimation("root", new Transformation(Transformation.Targets.MOVE_ORIGIN,
-					new Keyframe(0.0F, AnimationHelper.createTranslationalVector(16.0F, -14.0F, 4.0F), Transformation.Interpolations.CUBIC),
-					new Keyframe(0.3F, AnimationHelper.createTranslationalVector(18.0F, -14.0F, 8.0F), Transformation.Interpolations.CUBIC),
-					new Keyframe(0.4F, AnimationHelper.createTranslationalVector(16.0F, -14.0F, -6.0F), Transformation.Interpolations.CUBIC),
-					new Keyframe(0.45F, AnimationHelper.createTranslationalVector(16.0F, -14.0F, -6.0F), Transformation.Interpolations.CUBIC),
-					new Keyframe(0.8F, AnimationHelper.createTranslationalVector(16.0F, -14.0F, 4.0F), Transformation.Interpolations.LINEAR)
+					new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.CUBIC),
+					new Keyframe(0.3F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.CUBIC),
+					new Keyframe(0.4F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.CUBIC),
+					new Keyframe(0.45F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.CUBIC),
+					new Keyframe(0.8F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
 			))
-
 			.addBoneAnimation("Body", new Transformation(Transformation.Targets.ROTATE,
 					new Keyframe(0.0F, AnimationHelper.createRotationalVector(-11.25F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC),
 					new Keyframe(0.3F, AnimationHelper.createRotationalVector(-22.5F, 67.5F, 0.0F), Transformation.Interpolations.CUBIC),

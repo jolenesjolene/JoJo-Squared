@@ -17,6 +17,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatinumRenderState> {
@@ -52,6 +53,8 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
         matrices.translate(state.floatDistance, 0F, state.floatDistance);
 
+        addRenderOffset(state, matrices);
+
         this.model.setAngles(state);
         this.model.render(matrices, vertexConsumers.getBuffer(getRenderLayer()), light, OverlayTexture.DEFAULT_UV);
 
@@ -74,16 +77,18 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         state.renderYaw = MathHelper.lerpAngleDegrees(lerpFactor, state.renderYaw, state.realYaw);
         state.renderPitch = MathHelper.lerpAngleDegrees(lerpFactor, state.renderPitch, state.realPitch);
 
+        state.renderOffset = state.entity.getOwner().getRenderOffset();
+
         // Minecraft automatically interpolates state.x,y,z but we don't want their way of doing it
-        state.realX = entity.getX();
-        state.realY = entity.getY();
-        state.realZ = entity.getZ();
+        state.desiredX = entity.getX();
+        state.desiredY = entity.getY();
+        state.desiredZ = entity.getZ();
 
         if (state.renderX == 0f && state.renderY == 0f && state.renderZ == 0f)
         {
-            state.renderX = state.realX;
-            state.renderY = state.realY;
-            state.renderZ = state.realZ;
+            state.renderX = state.desiredX;
+            state.renderY = state.desiredY;
+            state.renderZ = state.desiredZ;
         }
 
         state.age = entity.age;
@@ -106,10 +111,22 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
     {
         double lerpFactor = 0.1;
 
-        state.renderX += (state.realX - state.renderX) * lerpFactor;
-        state.renderY += (state.realY - state.renderY) * lerpFactor;
-        state.renderZ += (state.realZ - state.renderZ) * lerpFactor;
+        state.renderX += (state.desiredX - state.renderX) * lerpFactor;
+        state.renderY += (state.desiredY - state.renderY) * lerpFactor;
+        state.renderZ += (state.desiredZ - state.renderZ) * lerpFactor;
 
         matrices.translate(state.renderX, state.renderY, state.renderZ);
+    }
+
+    private void addRenderOffset(StarPlatinumRenderState state, MatrixStack matrices)
+    {
+        double lerpFactor = 0.1;
+
+        double x = (state.renderOffset.x - state.renderOffsetPos.x) * lerpFactor;
+        double y = (state.renderOffset.y - state.renderOffsetPos.y) * lerpFactor;
+        double z = (state.renderOffset.z - state.renderOffsetPos.z) * lerpFactor;
+
+        state.renderOffsetPos = state.renderOffsetPos.add(new Vec3d(x, y, z));
+        matrices.translate(state.renderOffsetPos);
     }
 }

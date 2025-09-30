@@ -8,11 +8,13 @@ import net.jolene.jojosquared.input.api.InputModule;
 import net.jolene.jojosquared.stand.api.Stand;
 import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 
 @Environment(EnvType.CLIENT)
-public class SummonStandKey extends InputModule {
-    public SummonStandKey() {
-        super(ModKeyBindings.summonStand);
+public class CycleAbilityKey extends InputModule {
+    public CycleAbilityKey() {
+        super(ModKeyBindings.cycleAbility);
     }
 
     private boolean wasPressed = false;
@@ -29,18 +31,16 @@ public class SummonStandKey extends InputModule {
             IStandOwner standOwner = IStandOwner.get(client.player);
             Stand stand = standOwner.jojosquared$getStand();
 
-            if (stand != null)
+            if (stand == null || !stand.isSummoned())
             {
-                if (!stand.isSummoned())
-                {
-                    stand.summon();
-                    JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Summoning stand");
-                }
-                else {
-                    stand.remove();
-                    JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Removing stand");
-                }
+                wasPressed = true;
+                return true;
             }
+
+            stand.incrementAbilityIndex();
+            client.player.sendMessage(Text.literal("Set power to " + Text.translatable(stand.getCurrentAbility().getTranslationKey()).getString()), true);
+            client.player.playSound(SoundEvents.BLOCK_DISPENSER_FAIL, 1f, 1f);
+            JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Incrementing stand ability");
         }
 
         wasPressed = pressed;

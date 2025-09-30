@@ -56,5 +56,14 @@
 
   "_comment_keybinds": "beep boop i'm straight keybinding it rn",
   "category.jojosquared.stand": "JoJo² Stands",
-  "key.jojosquared.summon_stand": "Manifest"
+  "key.jojosquared.summon_stand": "Manifest",
+  "key.jojosquared.primary_attack": "Primary Attack",
+  "key.jojosquared.secondary_attack": "Secondary Attack",
+  "key.jojosquared.cycle_ability": "Cycle Ability",
+
+  "_comment_abilities": "stand ability names idk who cares",
+  "ability.jojosquared.sp_default": "Default",
+  "ability.jojosquared.sp_special": "Special",
+  "ability.jojosquared.sp_utility_primary": "Utility Primary",
+  "ability.jojosquared.sp_utility_secondary": "Utility Secondary"
 }
