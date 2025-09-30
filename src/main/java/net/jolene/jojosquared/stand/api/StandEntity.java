@@ -1,6 +1,7 @@
 package net.jolene.jojosquared.stand.api;
 
 import net.jolene.jojosquared.JoJoSquared;
+import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
@@ -10,8 +11,14 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StandEntity extends Entity {
     private Stand owner;
+    public AnimationState currentAnimation = null;
+    public List<AnimationState> animations = new ArrayList<>();
+
     public StandEntity(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -19,6 +26,7 @@ public class StandEntity extends Entity {
     public void setOwner(Stand owner)
     {
         this.owner = owner;
+        this.animations = owner.createAnimationStates();
         JoJoSquared.LOGGER.info("[{} (JoJoSquared)]: Set Owner", (this.getWorld().isClient ? "Client" : "Server"));
     }
 
@@ -48,6 +56,11 @@ public class StandEntity extends Entity {
 
     @Override
     public void tick() {
+        if (this.getWorld().isClient)
+        {
+            this.updateAnimationStates();
+        }
+
         // remove ourselves if we don't have an owner
         // checks if server context because it's normal for the client to not have synced yet
         if (this.owner == null && !this.getWorld().isClient)
@@ -62,5 +75,28 @@ public class StandEntity extends Entity {
         }
 
         super.tick();
+    }
+
+    private void updateAnimationStates() {
+        if (animations.isEmpty())
+            throw new IllegalStateException("Animations was 0!");
+
+        if (currentAnimation == null)
+        {
+            currentAnimation = animations.getFirst();
+            currentAnimation.start(this.age);
+            return;
+        }
+
+        for (AnimationState anim : animations)
+        {
+            if (anim.equals(currentAnimation))
+            {
+                anim.startIfNotRunning(this.age);
+            }
+            else {
+                anim.stop();
+            }
+        }
     }
 }

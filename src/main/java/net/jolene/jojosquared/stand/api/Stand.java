@@ -1,7 +1,5 @@
 package net.jolene.jojosquared.stand.api;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.network.api.MessageListener;
 import net.jolene.jojosquared.network.payload.ModNetworking;
@@ -9,17 +7,13 @@ import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
 import net.jolene.jojosquared.stand.api.network.StandC2SContext;
 import net.jolene.jojosquared.stand.api.network.StandS2CContext;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /// The Stand class, acting as a home for all the attached parts.
@@ -110,6 +104,17 @@ public abstract class Stand {
     public StandAbility getCurrentAbility()
     {
         return abilities.get(currentAbilityIndex);
+    }
+
+    public abstract int animationCount();
+    public List<AnimationState> createAnimationStates()
+    {
+        int count = this.animationCount();
+        List<AnimationState> list = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            list.add(new AnimationState());
+        }
+        return list;
     }
 
     public static class BaseStandNetworking

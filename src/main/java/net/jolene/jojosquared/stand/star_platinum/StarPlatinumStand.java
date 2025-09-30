@@ -1,7 +1,6 @@
 package net.jolene.jojosquared.stand.star_platinum;
 
 import net.jolene.jojosquared.entity.ModEntities;
-import net.jolene.jojosquared.stand.api.PressContext;
 import net.jolene.jojosquared.stand.api.Stand;
 import net.jolene.jojosquared.stand.api.StandAbility;
 import net.jolene.jojosquared.stand.star_platinum.ability.SPDefault;
@@ -33,4 +32,7 @@ public class StarPlatinumStand extends Stand {
     public void tick() {
         super.tick();
     }
+
+    @Override
+    public int animationCount() { return 9; }
 }

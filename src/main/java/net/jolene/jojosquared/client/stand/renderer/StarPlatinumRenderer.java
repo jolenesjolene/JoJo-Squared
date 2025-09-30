@@ -14,6 +14,7 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.AnimationState;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
@@ -83,6 +84,21 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
             state.renderX = state.realX;
             state.renderY = state.realY;
             state.renderZ = state.realZ;
+        }
+
+        state.age = entity.age;
+
+        if (state.animStates == null)
+        {
+            if (entity.getOwner() != null)
+                state.animStates = entity.getOwner().createAnimationStates();
+        }
+
+        if (state.animStates != null)
+        {
+            int index = 0;
+            for (AnimationState animState : state.animStates)
+            { animState.copyFrom(state.entity.animations.get(index++)); }
         }
     }
 
