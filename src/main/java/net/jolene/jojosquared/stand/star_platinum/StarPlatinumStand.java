@@ -34,5 +34,5 @@ public class StarPlatinumStand extends Stand {
     }
 
     @Override
-    public int animationCount() { return 9; }
+    public int animationCount() { return 13; }
 }

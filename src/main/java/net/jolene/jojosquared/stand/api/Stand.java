@@ -46,12 +46,7 @@ public abstract class Stand {
             throw new IllegalStateException("Stand was ticked but this.entity == null!");
 
         if (!this.owner.getWorld().isClient) {
-            this.entity.setPos(this.owner.getX(), this.owner.getY(), this.owner.getZ());
-
-            this.entity.setPitch(this.owner.getPitch());
-            this.entity.setYaw(this.owner.getYaw());
-            this.entity.setBodyYaw(this.owner.getBodyYaw());
-            this.entity.setHeadYaw(this.owner.getHeadYaw());
+            setPosToOwner();
         }
 
         for (StandAbility ability : abilities)
@@ -92,6 +87,7 @@ public abstract class Stand {
             if (entity == null)
                 throw new RuntimeException("Attempted to summon stand but summoned entity was null!");
             entity.setOwner(this);
+            setPosToOwner();
 
             sworld.getPlayers().forEach(player->{
                 ModNetworking.sendMessageS2C(player, "base_stand_s2c", owner.getId(), entity.getId(), StandS2CContext.ENTITY_SUMMONED_STAND);
@@ -148,6 +144,20 @@ public abstract class Stand {
 
     public void setOwner(LivingEntity owner) { this.owner = owner; }
     public @Nullable LivingEntity getOwner() { return this.owner; }
+
+    public void setPos(Vec3d pos) {if (this.entity != null) this.entity.setPosition(pos); }
+    public void setPosToOwner() {
+        if (this.entity == null || this.owner == null)
+            return;
+
+        this.entity.setPos(this.owner.getX(), this.owner.getY(), this.owner.getZ());
+
+        this.entity.setPitch(this.owner.getPitch());
+        this.entity.setYaw(this.owner.getYaw());
+        this.entity.setBodyYaw(this.owner.getBodyYaw());
+        this.entity.setHeadYaw(this.owner.getHeadYaw());
+    }
+    public Vec3d getPos() { return (this.entity != null) ? this.entity.getPos() : null; }
 
     public void setCurrentAbilityIndex(int index) { this.currentAbilityIndex = index % this.abilities.size(); }
     public void incrementAbilityIndex() { setCurrentAbilityIndex(this.currentAbilityIndex + 1); }
@@ -257,6 +267,7 @@ public abstract class Stand {
                         if (client.world.getEntityById(standId) instanceof StandEntity stand)
                         {
                             ownerStand.entity = stand;
+                            ownerStand.entity.setAnimations(0);
                             stand.setOwner(ownerStand);
                             JoJoSquared.LOGGER.info("[Client (JoJo Squared/Networking|Stand)]: Setup stand for entity with id {}", ownerId);
                         }

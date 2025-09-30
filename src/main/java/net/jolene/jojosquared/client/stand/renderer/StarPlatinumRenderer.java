@@ -68,6 +68,9 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
                                   float tickProgress) {
         super.updateRenderState(entity, state, tickProgress); // sets standingEyeHeight, x, y, z, etc...
 
+        if (entity.getOwner() == null)
+            return;
+
         state.entity = entity;
 
         state.realYaw = entity.getBodyYaw();

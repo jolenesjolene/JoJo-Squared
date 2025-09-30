@@ -1,5 +1,7 @@
 package net.jolene.jojosquared.stand.api;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
@@ -18,7 +20,7 @@ public class StandEntity extends Entity {
     private Stand owner;
     public AnimationState currentAnimation = null;
     public List<AnimationState> animations = new ArrayList<>();
-    public static final int DEFAULT_ANIM_INDEX = 0;
+    public static final int DEFAULT_ANIM_INDEX = 2;
 
     public StandEntity(EntityType<?> type, World world) {
         super(type, world);
@@ -90,16 +92,21 @@ public class StandEntity extends Entity {
         this.currentAnimation = state;
     }
 
+    @Environment(EnvType.CLIENT)
     private void updateAnimationStates() {
         if (animations.isEmpty())
             return;
 
         AnimationState defaultAnim = animations.get(DEFAULT_ANIM_INDEX);
 
-        defaultAnim.startIfNotRunning(this.age);
+        //defaultAnim.startIfNotRunning(this.age);
         if (currentAnimation != null) {
+            defaultAnim.stop();
             currentAnimation.start(this.age);
-            currentAnimation = null;
+            //currentAnimation = null;
+        }
+        else {
+            defaultAnim.startIfNotRunning(this.age);
         }
     }
 }

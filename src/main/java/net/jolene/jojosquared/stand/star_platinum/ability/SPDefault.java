@@ -17,22 +17,25 @@ public class SPDefault extends StandAbility {
     @Override
     public void actionPress(int context) {
         if (cooldown != 0)
-        {
-            return;
-        }
+        { return; }
 
         if (context == PressContext.PRIMARY)
         {
-            parent.playAnimation(1);
-            parent.addRenderOffset(new Vec3d(0f, 0f, -1.25f));
-            cooldown = 20;
-
+            parent.playAnimation(4);
         } else if (context == PressContext.SECONDARY) {return;}
     }
 
     @Override
     public void actionRelease(int context, int ticksHeldFor) {
+        if (cooldown != 0)
+        { return; }
 
+        if (context == PressContext.PRIMARY)
+        {
+            parent.playAnimation(5);
+            parent.addRenderOffset(new Vec3d(0f, 0f, -1.25f));
+            cooldown = 20;
+        }
     }
 
     @Override

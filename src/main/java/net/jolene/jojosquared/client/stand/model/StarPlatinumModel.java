@@ -50,17 +50,17 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 	public static TexturedModelData getTexturedModelData() {
 		ModelData modelData = new ModelData();
 		ModelPartData modelPartData = modelData.getRoot();
-		ModelPartData StarPlatinum = modelPartData.addChild("StarPlatinum", ModelPartBuilder.create(), ModelTransform.origin(0.0F, 25.0F, 0.0F));
+		ModelPartData StarPlatinum = modelPartData.addChild("StarPlatinum", ModelPartBuilder.create(), ModelTransform.origin(0.0F, 8.0F, 0.0F));
 
 		ModelPartData Body = StarPlatinum.addChild("Body", ModelPartBuilder.create().uv(32, 21).cuboid(-4.0F, -12.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F))
-				.uv(32, 37).cuboid(-4.0F, -12.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.25F)), ModelTransform.origin(0.0F, -13.0F, 0.0F));
+				.uv(32, 37).cuboid(-4.0F, -12.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.25F)), ModelTransform.origin(0.0F, 4.0F, 0.0F));
 
 		ModelPartData Head = Body.addChild("Head", ModelPartBuilder.create().uv(0, 21).cuboid(-4.0F, -9.0F, -4.0F, 8.0F, 9.0F, 8.0F, new Dilation(0.0F))
 				.uv(0, 0).cuboid(-4.0F, -9.0F, -4.0F, 8.0F, 9.0F, 12.0F, new Dilation(0.5F)), ModelTransform.origin(0.0F, -12.0F, 0.0F));
 
-		ModelPartData ClothFront = Body.addChild("ClothFront", ModelPartBuilder.create().uv(56, 16).cuboid(-3.0F, 0.0F, -0.025F, 6.0F, 7.0F, 0.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, -2.0F, -2.175F));
+		ModelPartData ClothFront = Body.addChild("ClothFront", ModelPartBuilder.create().uv(56, 16).cuboid(-3.0F, 0.0F, -0.025F, 6.0F, 6.0F, 0.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, -2.0F, -2.175F));
 
-		ModelPartData ClothBack = Body.addChild("ClothBack", ModelPartBuilder.create().uv(56, 23).cuboid(-3.0F, 0.0F, 0.025F, 6.0F, 7.0F, 0.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, -2.0F, 2.175F));
+		ModelPartData ClothBack = Body.addChild("ClothBack", ModelPartBuilder.create().uv(56, 22).cuboid(-3.0F, 0.0F, 0.025F, 6.0F, 6.0F, 0.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, -2.0F, 2.175F));
 
 		ModelPartData RightArm = Body.addChild("RightArm", ModelPartBuilder.create().uv(0, 38).cuboid(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F))
 				.uv(16, 38).cuboid(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.25F)), ModelTransform.origin(-5.0F, -10.0F, 0.0F));
@@ -69,10 +69,10 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 				.uv(32, 53).cuboid(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.25F)), ModelTransform.origin(5.0F, -10.0F, 0.0F));
 
 		ModelPartData RightLeg = StarPlatinum.addChild("RightLeg", ModelPartBuilder.create().uv(48, 53).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F))
-				.uv(0, 54).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.25F)), ModelTransform.origin(-2.0F, -13.0F, 0.0F));
+				.uv(0, 54).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.25F)), ModelTransform.origin(-2.0F, 4.0F, 0.0F));
 
 		ModelPartData LeftLeg = StarPlatinum.addChild("LeftLeg", ModelPartBuilder.create().uv(16, 54).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.0F))
-				.uv(56, 0).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.25F)), ModelTransform.origin(2.0F, -13.0F, 0.0F));
+				.uv(56, 0).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new Dilation(0.25F)), ModelTransform.origin(2.0F, 4.0F, 0.0F));
 		return TexturedModelData.of(modelData, 128, 128);
 	}
 
