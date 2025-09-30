@@ -14,7 +14,7 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.AnimationState;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
@@ -46,12 +46,16 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         Stand owner = state.entity.getOwner();
         if (owner == null)
             return;
+        LivingEntity ownerEnt = owner.getOwner();
+        if (ownerEnt == null)
+            return;
+
         matrices.push();
 
         matrices.translate(-state.x, -state.y, -state.z); // reset pos so we have access to the raw world coords
         determinePos(state, matrices);
 
-        matrices.translate(0f, state.standingEyeHeight, 0f);
+        matrices.translate(0f, state.standingEyeHeight + Math.sin(state.age / 12.0) * 0.125, 0f);
         matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(state.renderYaw));
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
         matrices.translate(state.floatDistance, 0F, state.floatDistance);
@@ -76,14 +80,18 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
 
         state.entity = entity;
 
-        state.realYaw = entity.getBodyYaw();
-        state.realPitch = entity.getPitch();
+        state.realYaw = entity.getBodyYaw(); // left-right
+        state.realPitch = entity.getPitch(); // up-down
 
         float lerpFactor = 0.1f;
         state.renderYaw = MathHelper.lerpAngleDegrees(lerpFactor, state.renderYaw, state.realYaw);
         state.renderPitch = MathHelper.lerpAngleDegrees(lerpFactor, state.renderPitch, state.realPitch);
 
         state.renderOffset = state.entity.getOwner().getRenderOffset();
+
+        LivingEntity ownerEnt = state.entity.getOwner().getOwner();
+        if (ownerEnt == null)
+            return;
 
         // Minecraft automatically interpolates state.x,y,z but we don't want their way of doing it
         state.desiredX = entity.getX();
@@ -111,12 +119,8 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         state.idle.copyFrom(state.entity.idle);
         state.default_hold.copyFrom(state.entity.default_hold);
         state.default_1.copyFrom(state.entity.default_1);
-//        if (state.animStates != null)
-//        {
-//            int index = 0;
-//            for (AnimationState animState : state.animStates)
-//            { animState.copyFrom(state.entity.animations.get(index++)); }
-//        }
+        state.default_2.copyFrom(state.entity.default_2);
+        state.default_3.copyFrom(state.entity.default_3);
     }
 
     private void determinePos(StarPlatinumRenderState state, MatrixStack matrices)

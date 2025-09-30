@@ -14,12 +14,12 @@
   "swing": {
     "subtitle": "sounds.jojosquared.swing",
     "sounds": [
-      "jojosquared:swin0",
-      "jojosquared:swin1",
-      "jojosquared:swin2",
+      "jojosquared:swing0",
+      "jojosquared:swing1",
+      "jojosquared:swing2",
       "jojosquared:swing3",
       "jojosquared:swing4",
-      "jojosquared:swin5"
+      "jojosquared:swing5"
     ]
   },
   "cycle": {

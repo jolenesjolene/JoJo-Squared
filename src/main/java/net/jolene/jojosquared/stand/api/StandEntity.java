@@ -29,6 +29,8 @@ public class StandEntity extends Entity {
     public AnimationState passive = new AnimationState();
     public AnimationState default_hold = new AnimationState();
     public AnimationState default_1 = new AnimationState();
+    public AnimationState default_2 = new AnimationState();
+    public AnimationState default_3 = new AnimationState();
 
     public StandEntity(EntityType<?> type, World world) {
         super(type, world);
@@ -127,6 +129,8 @@ public class StandEntity extends Entity {
                 case Animations.PASSIVE -> current = passive;
                 case Animations.DEFAULT_HOLD-> current = default_hold;
                 case Animations.DEFAULT_1-> current = default_1;
+                case Animations.DEFAULT_2 -> current = default_2;
+                case Animations.DEFAULT_3 -> current = default_3;
                 default -> current = idle;
             }
 
@@ -142,5 +146,7 @@ public class StandEntity extends Entity {
         int PASSIVE = 3;
         int DEFAULT_HOLD = 4;
         int DEFAULT_1 = 5;
+        int DEFAULT_2 = 6;
+        int DEFAULT_3 = 7;
     }
 }

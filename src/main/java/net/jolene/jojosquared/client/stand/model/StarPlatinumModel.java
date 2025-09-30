@@ -38,6 +38,8 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 	public Animation passive;
 	public Animation default_hold;
 	public Animation default_1;
+	public Animation default_2;
+	public Animation default_3;
 
 	public StarPlatinumModel(ModelPart root) {
 		super(root);
@@ -56,7 +58,10 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 		this.idle = StarPlatinumAnims.idle.createAnimation(root);
 		this.passive = StarPlatinumAnims.passive.createAnimation(root);
 		this.default_hold = StarPlatinumAnims.default_hold.createAnimation(root);
-		this.default_1 = StarPlatinumAnims.default_1.createAnimation(root);	}
+		this.default_1 = StarPlatinumAnims.default_1.createAnimation(root);
+		this.default_2 = StarPlatinumAnims.default_2.createAnimation(root);
+		this.default_3 = StarPlatinumAnims.default_3.createAnimation(root);
+	}
 
 	public static TexturedModelData getTexturedModelData() {
 		ModelData modelData = new ModelData();
@@ -96,5 +101,7 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 		this.passive.apply(state.passive, state.age);
 		this.default_hold.apply(state.default_hold, state.age);
 		this.default_1.apply(state.default_1, state.age);
+		this.default_2.apply(state.default_2, state.age);
+		this.default_3.apply(state.default_3, state.age);
 	}
 }

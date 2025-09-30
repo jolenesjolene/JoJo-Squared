@@ -30,6 +30,8 @@ public class StarPlatinumRenderState extends EntityRenderState {
     public AnimationState passive = new AnimationState();
     public AnimationState default_hold = new AnimationState();
     public AnimationState default_1 = new AnimationState();
+    public AnimationState default_2 = new AnimationState();
+    public AnimationState default_3 = new AnimationState();
 
     public StarPlatinumRenderState()
     { }
