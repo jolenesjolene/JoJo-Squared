@@ -1,4 +1,33 @@
 {
+  "manifest": {
+    "subtitle": "sounds.jojosquared.manifest",
+    "sounds": [
+      "jojosquared:manifest"
+    ]
+  },
+  "withdraw": {
+    "subtitle": "sounds.jojosquared.withdraw",
+    "sounds": [
+      "jojosquared:withdraw"
+    ]
+  },
+  "swing": {
+    "subtitle": "sounds.jojosquared.swing",
+    "sounds": [
+      "jojosquared:swin0",
+      "jojosquared:swin1",
+      "jojosquared:swin2",
+      "jojosquared:swing3",
+      "jojosquared:swing4",
+      "jojosquared:swin5"
+    ]
+  },
+  "cycle": {
+    "subtitle": "sounds.jojosquared.cycle",
+    "sounds": [
+      "jojosquared:cycle"
+    ]
+  },
   "morioh_cho_radio": {
     "subtitle": "sounds.jojosquared.morioh_cho_radio",
     "sounds": [

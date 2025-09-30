@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.input.ModKeyBindings;
 import net.jolene.jojosquared.input.api.InputModule;
+import net.jolene.jojosquared.sound.ModSounds;
 import net.jolene.jojosquared.stand.api.Stand;
 import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
 import net.minecraft.client.MinecraftClient;
@@ -39,7 +40,8 @@ public class CycleAbilityKey extends InputModule {
 
             stand.incrementAbilityIndex();
             client.player.sendMessage(Text.literal("Set power to " + Text.translatable(stand.getCurrentAbility().getTranslationKey()).getString()), true);
-            client.player.playSound(SoundEvents.BLOCK_DISPENSER_FAIL, 1f, 1f);
+            float pitch = 0.9f + client.player.getRandom().nextFloat() * 0.2f; // 0.9 to 1.1
+            client.player.playSound(ModSounds.CYCLE_ABILITY, 1f, pitch);
             JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Incrementing stand ability");
         }
 

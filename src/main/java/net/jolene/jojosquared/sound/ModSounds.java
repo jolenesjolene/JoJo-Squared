@@ -10,6 +10,10 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
 public class ModSounds {
+    public static final SoundEvent MANIFEST_STAND = registerSoundEvent("manifest");
+    public static final SoundEvent WITHDRAW_STAND = registerSoundEvent("withdraw");
+    public static final SoundEvent SWING = registerSoundEvent("swing");
+    public static final SoundEvent CYCLE_ABILITY = registerSoundEvent("cycle_ability");
 
     public static final SoundEvent MORIOH_CHO_RADIO = registerSoundEvent("morioh_cho_radio");
 public static final RegistryKey<JukeboxSong> MORIOH_CHO_RADIO_KEY =

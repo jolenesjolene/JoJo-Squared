@@ -26,6 +26,7 @@ public class SPDefault extends StandAbility {
             parent.playAnimation(1);
             parent.addRenderOffset(new Vec3d(0f, 0f, -1.25f));
             cooldown = 20;
+
         } else if (context == PressContext.SECONDARY) {return;}
     }
 
