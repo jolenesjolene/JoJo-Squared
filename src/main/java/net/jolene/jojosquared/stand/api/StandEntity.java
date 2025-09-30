@@ -12,6 +12,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -24,6 +25,14 @@ public class StandEntity extends Entity {
     private AnimationState currentState;
     public List<AnimationState> animations = new ArrayList<>();
     public static final int DEFAULT_ANIM_INDEX = 2;
+
+    public float renderYaw, renderPitch;
+    public float realYaw, realPitch;
+
+    public Vec3d renderOffset;
+    public double renderX, renderY, renderZ = 0f;
+    public double desiredX, desiredY, desiredZ;
+    public Vec3d renderOffsetPos = new Vec3d(0., 0., 0.);
 
     public AnimationState manifest = new AnimationState();
     public AnimationState withdraw = new AnimationState();

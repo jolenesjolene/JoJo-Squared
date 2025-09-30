@@ -13,13 +13,6 @@ import java.util.List;
 public class StarPlatinumRenderState extends EntityRenderState {
     public StandEntity entity;
     public boolean owns;
-    public float renderYaw, renderPitch;
-    public float realYaw, realPitch;
-
-    public Vec3d renderOffset;
-    public double renderX, renderY, renderZ = 0f;
-    public double desiredX, desiredY, desiredZ;
-    public Vec3d renderOffsetPos = new Vec3d(0., 0., 0.);
 
     public float floatDistance = 0.425f;
 
