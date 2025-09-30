@@ -14,10 +14,10 @@ public class Menacing extends SpriteBillboardParticle {
 
         this.spriteProvider = spriteProvider;
 
-        this.velocityMultiplier = 0.8f;
+        this.velocityMultiplier = 1.0f;
         this.maxAge = 40;
 
-        this.scale(1.0f);
+        this.scale(2.0f);
 
         this.setSpriteForAge(spriteProvider);
 
