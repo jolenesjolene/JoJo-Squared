@@ -3,20 +3,13 @@ package net.jolene.jojosquared.client.stand.model;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
-import net.jolene.jojosquared.client.stand.StandAnimation;
 import net.jolene.jojosquared.client.stand.anim.StarPlatinumAnims;
 import net.jolene.jojosquared.client.stand.state.StarPlatinumRenderState;
 import net.jolene.jojosquared.stand.api.StandEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.animation.Animation;
-import net.minecraft.client.render.entity.animation.AnimationDefinition;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.entity.AnimationState;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPlatinumRenderState> {
@@ -103,6 +96,8 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 		this.default_1.apply(state.default_1, state.age);
 		this.default_2.apply(state.default_2, state.age);
 		this.default_3.apply(state.default_3, state.age);
+
+		JoJoSquared.LOGGER.info("Applied anims!");
 	}
 
 	public void setTorsoAngles(float pitch, float yaw, float roll)

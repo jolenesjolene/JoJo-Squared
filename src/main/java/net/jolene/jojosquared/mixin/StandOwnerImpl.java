@@ -1,9 +1,15 @@
 package net.jolene.jojosquared.mixin;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
+import net.jolene.jojosquared.network.payload.ModNetworking;
 import net.jolene.jojosquared.stand.api.Stand;
+import net.jolene.jojosquared.stand.api.StandEntity;
 import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
 import net.jolene.jojosquared.stand.star_platinum.StarPlatinumStand;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
@@ -24,13 +30,27 @@ public class StandOwnerImpl implements IStandOwner {
     }
 
     @Override @Unique
-    public void jojosquared$setStand(@NotNull Stand stand) {
+    public void jojosquared$setStand(@NotNull Stand stand, int standId, boolean summoned) {
         if (this.stand != null)
             this.stand.withdraw();
 
+        LivingEntity self = (LivingEntity)(Object)this;
+        if (!self.getWorld().isClient) {
+            this.stand = stand;
+            return;
+        }
+
+        JoJoSquared.LOGGER.info("###  Setting Stand  ###");
+        JoJoSquared.LOGGER.info("Stand Class: {} | Summoned: {} | Owner Name: {}", stand.getClass().getSimpleName(), summoned, self.getName().getLiteralString());
+
         this.stand = stand;
-        stand.setOwner((LivingEntity)(Object)this);
-        stand.summon();
+
+        if (summoned) {
+            stand.setEntityById(standId);
+            stand.quietSummon();
+        } else {
+            this.stand.quietWithdraw();
+        }
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
@@ -38,11 +58,18 @@ public class StandOwnerImpl implements IStandOwner {
     {
         if (stand != null)
             return;
+
         LivingEntity self = ((LivingEntity) (Object)this);
         if (self.isRemoved() || self.isDead())
             return;
 
-        JoJoSquared.LOGGER.info("[{} (JoJoSquared/Stand|LivingEntity)]: Giving stand to entity of class {}", (self.getWorld().isClient ? "Client" : "Server"), self.getClass().getSimpleName());
+        if (self.getWorld().isClient) {
+            ModNetworking.sendMessageC2S("stand_owner_c2s", self.getId());
+            return;
+        }
+
+        JoJoSquared.LOGGER.info("[Server (JoJoSquared/Stand|LivingEntity)]: Giving stand to entity of class {}", self.getClass().getSimpleName());
+        // TODO: valve pls fix (make it so we don't automatically have star platinum, maybe by an empty stand class?)
         stand = new StarPlatinumStand(self);
     }
 

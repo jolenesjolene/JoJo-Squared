@@ -1,5 +1,7 @@
 package net.jolene.jojosquared.stand.api;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.network.api.MessageListener;
 import net.jolene.jojosquared.network.payload.ModNetworking;
@@ -56,6 +58,7 @@ public abstract class Stand {
         }
         JoJoSquared.LOGGER.info("[{} (JoJoSquared/Stand|Ctor)]: Created Stand class for entity {} ({})", (this.owner.getWorld().isClient ? "Client" : "Server"), owner.getClass().getSimpleName(), (instanceOwns ? "owned by instance" : "not owned by instance"));
     }
+
     public void setAbilities(List<? extends StandAbility> abilities)
     {
         assert abilities.size() <= 4 : "Attempted to set abilities to a list bigger than 4!";
@@ -107,40 +110,61 @@ public abstract class Stand {
                 this.entity.setAnimation(StandEntity.Animations.WITHDRAW, 5);
             }
 
-            tickRuns.add(new Pair<>(4, ()->{
-                if (entity != null)
-                {
-                    entity.remove(Entity.RemovalReason.DISCARDED);
-                    entity = null;
-                    JoJoSquared.LOGGER.info("[{} (JoJoSquared)]: Removed entity!", (this.owner.getWorld().isClient ? "Client" : "Server"));
-                }
-            }));
+            tickRuns.add(new Pair<>(4, this::quietWithdraw));
+        }
+    }
+
+    public void quietWithdraw()
+    {
+        if (entity != null)
+        {
+            entity.remove(Entity.RemovalReason.DISCARDED);
+            entity = null;
+            JoJoSquared.LOGGER.info("[{} (JoJoSquared/Stand|Withdraw)]: Removed entity!", (this.owner.getWorld().isClient ? "Client" : "Server"));
         }
     }
 
     public void summon() {
         isSummoned = true;
         World world = owner.getWorld();
+
+        JoJoSquared.LOGGER.info("[{} (JoJoSquared/Stand|Summon)]: Summoning! | owner: {}", (world.isClient ? "Client" : "Server"), owner.getName().getLiteralString());
+
         if (world.isClient())
         {
             ModNetworking.sendMessageC2S("base_stand_c2s", StandC2SContext.SUMMON_STAND);
         }
         else {
+            JoJoSquared.LOGGER.info("[Server (JoJoSquared/Stand|Summon)]: Entity: {}!", entity);
             if (entity != null)
                 return; // no work to be done here
             if (owner == null)
                 throw new RuntimeException("Failed to summon stand! Owner was null!");
 
             ServerWorld sworld = (ServerWorld)world;
-            entity = type.spawn(sworld, owner.getBlockPos(), SpawnReason.TRIGGERED);
-            if (entity == null)
+            this.entity = type.spawn(sworld, owner.getBlockPos(), SpawnReason.TRIGGERED);
+            if (this.entity == null)
                 throw new RuntimeException("Attempted to summon stand but summoned entity was null!");
-            entity.setOwner(this);
+            this.entity.setOwner(this);
             setPosToOwner();
 
             sworld.getPlayers().forEach(player->{
                 ModNetworking.sendMessageS2C(player, "base_stand_s2c", owner.getId(), entity.getId(), StandS2CContext.ENTITY_SUMMONED_STAND);
             });
+        }
+    }
+
+    public void quietSummon()
+    {
+        isSummoned = true;
+
+        if (this.entity == null)
+            return;
+
+        World world = owner.getWorld();
+        if (world.isClient)
+        {
+            this.entity.setAnimation(StandEntity.Animations.IDLE);
         }
     }
 
@@ -153,6 +177,7 @@ public abstract class Stand {
             entity.discard();
             entity = null;
         }
+
         tickRuns.clear();
         owner = null;
         abilities = null;
@@ -223,8 +248,22 @@ public abstract class Stand {
     public @Nullable LivingEntity getOwner() { return this.owner; }
 
     public @Nullable StandEntity getEntity() { return entity; }
+    @Environment(EnvType.CLIENT)
+    public void setEntityById(int id)
+    {
+        if (id == Integer.MIN_VALUE)
+            return;
 
-    public void setPos(Vec3d pos) {if (this.entity != null) this.entity.setPosition(pos); }
+        if (this.owner == null)
+            return;
+
+        if (this.owner.getWorld().getEntityById(id) instanceof StandEntity ent)
+        {
+            this.entity = ent;
+            this.entity.setOwner(this);
+        }
+    }
+
     public void setPosToOwner() {
         if (this.entity == null || this.owner == null)
             return;
@@ -257,7 +296,6 @@ public abstract class Stand {
         public static void c2s(@Nullable ServerPlayerEntity serverPlayer, Integer context)
         {
             assert serverPlayer != null : "Got S2C on a C2S packet?";
-            JoJoSquared.LOGGER.info("[Server (JoJo Squared/Networking|Stand)]: Got packet from player \"{}\"", serverPlayer.getName().getLiteralString());
 
             switch (context) {
                 case StandC2SContext.SUMMON_STAND -> {
@@ -267,7 +305,6 @@ public abstract class Stand {
                         return; // idk how this happened lmao
 
                     stand.summon();
-                    JoJoSquared.LOGGER.info("[Server (JoJo Squared/Networking|Stand)]: Summoned stand for player \"{}\"", serverPlayer.getName().getLiteralString());
                 }
                 case StandC2SContext.DESUMMON_STAND -> {
                     IStandOwner standOwner = IStandOwner.get(serverPlayer);
@@ -276,9 +313,7 @@ public abstract class Stand {
                         return; // idk how this happened lmao
 
                     stand.withdraw();
-                    JoJoSquared.LOGGER.info("[Server (JoJo Squared/Networking|Stand)]: De-summoned stand for player \"{}\"", serverPlayer.getName().getLiteralString());
                 }
-                default -> JoJoSquared.LOGGER.warn("[Server (JoJo Squared/Networking|Stand)]: Got unknown C2S packet context: {}", context);
             }
         }
 
@@ -287,8 +322,6 @@ public abstract class Stand {
         {
             assert serverPlayer != null : "Got S2C on a C2S packet?";
             assert context == StandC2SContext.ATTACK || context == StandC2SContext.RELEASE : "Got a packet other than ATTACK/RELEASE for standAtkC2S!";
-
-            JoJoSquared.LOGGER.info("[Server (JoJo Squared/Networking|Stand)]: Got atk packet from player \"{}\"", serverPlayer.getName().getLiteralString());
 
             IStandOwner owner = IStandOwner.get(serverPlayer);
             Stand ownerStand = owner.jojosquared$getStand();
@@ -311,8 +344,6 @@ public abstract class Stand {
         {
             assert serverPlayer != null : "Got S2C on a C2S packet?";
             assert context == StandC2SContext.DAMAGE_ENTITY : "Got a packet other than DAMAGE_ENTITY for standDamageEntityC2S!";
-
-            JoJoSquared.LOGGER.info("[Server (JoJo Squared/Networking|Stand)]: Got damage packet from player \"{}\"", serverPlayer.getName().getLiteralString());
 
             IStandOwner owner = IStandOwner.get(serverPlayer);
             Stand ownerStand = owner.jojosquared$getStand();
@@ -342,7 +373,6 @@ public abstract class Stand {
             assert serverPlayer == null : "Got C2S on a S2C packet?";
             assert context == StandS2CContext.ENTITY_SUMMONED_STAND || context == StandS2CContext.ENTITY_DESUMMONED_STAND  : "Got a packet other than ENTITY_SUMMONED_STAND/ENTITY_DESUMMONED_STAND for standSummonS2C!";
 
-            JoJoSquared.LOGGER.info("[Client (JoJo Squared/Networking|Stand)]: Got state change packet!");
             MinecraftClient client = MinecraftClient.getInstance();
             if (client.world == null)
                 return; // shouldn't even matter atp we're loading into an entirely different dimension dawg
@@ -359,6 +389,7 @@ public abstract class Stand {
                     case StandS2CContext.ENTITY_SUMMONED_STAND -> {
                         if (client.world.getEntityById(standId) instanceof StandEntity stand)
                         {
+                            JoJoSquared.LOGGER.warn("[Client (JoJo Squared/Networking|Stand)]: ENTITY_SUMMONED_STAND for ID {}", standId);
                             ownerStand.owner = ownerEnt;
                             ownerStand.entity = stand;
                             ownerStand.entity.setAnimation(StandEntity.Animations.MANIFEST, 10);

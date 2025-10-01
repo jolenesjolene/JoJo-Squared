@@ -32,7 +32,4 @@ public class StarPlatinumStand extends Stand {
     public void tick() {
         super.tick();
     }
-
-    @Override
-    public int animationCount() { return 13; }
 }

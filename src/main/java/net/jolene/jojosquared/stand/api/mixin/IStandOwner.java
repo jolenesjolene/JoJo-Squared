@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface IStandOwner {
     public @Nullable Stand jojosquared$getStand();
-    public void jojosquared$setStand(@NotNull Stand stand);
+    public void jojosquared$setStand(@NotNull Stand stand, int standId, boolean summoned);
 
     public static IStandOwner get(LivingEntity entity)
     {

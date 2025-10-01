@@ -25,8 +25,8 @@ public class StandEntity extends Entity {
 
     public float floatDistance = 0.425f;
 
-    public float renderYaw, renderPitch;
-    public float realYaw, realPitch;
+    public float renderBodyYaw, renderHeadYaw, renderPitch;
+    public float bodyYaw, headYaw, realPitch;
 
     public Vec3d renderOffset;
     public double dx, dy, dz;

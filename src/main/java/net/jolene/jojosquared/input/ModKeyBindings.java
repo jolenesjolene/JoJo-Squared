@@ -19,6 +19,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 public class ModKeyBindings {
@@ -75,7 +76,7 @@ public class ModKeyBindings {
         }
     }
 
-    public static void processHeldKeys(List<InputUtil.Key> heldKeys)
+    public static void processHeldKeys(HashSet<InputUtil.Key> heldKeys)
     {
         for (InputModule binding : BINDINGS)
         {
@@ -93,8 +94,7 @@ public class ModKeyBindings {
             {
                 if (binding.isBlocking())
                 {
-                    if (!IKeyBindingAccessor.prioritizedKeys.contains(boundKey))
-                        IKeyBindingAccessor.prioritizedKeys.add(boundKey);
+                    IKeyBindingAccessor.prioritizedKeys.add(boundKey);
                 }
                 else { IKeyBindingAccessor.prioritizedKeys.remove(boundKey); }
 

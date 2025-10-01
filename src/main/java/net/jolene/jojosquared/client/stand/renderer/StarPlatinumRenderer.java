@@ -42,10 +42,6 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
     public void render(StarPlatinumRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         if (state.entity == null)
             return;
-        model.setAngles(state);  // but `state` must have tickDelta set
-
-
-
         Stand stand = state.entity.getOwner();
         if (stand == null)
             return;
@@ -53,11 +49,15 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         if (standOwner == null)
             return;
 
-        state.entity.realYaw = standOwner.getBodyYaw(); // left-right
-        state.entity.realPitch = (standOwner.getPitch() - 180.f) % 360.0f; // up-down
+        // yaw = left-right
+        // pitch = up-down
+        state.entity.bodyYaw = (float) MathHelper.lerp(state.tickProgress, standOwner.lastBodyYaw, standOwner.bodyYaw); // interpolates to get the real head yaw
+        state.entity.headYaw = standOwner.getHeadYaw();
+        state.entity.realPitch = standOwner.getPitch();
 
         float lerpFactor = 0.1f;
-        state.entity.renderYaw = MathHelper.lerpAngleDegrees(lerpFactor, state.entity.renderYaw, state.entity.realYaw);
+        state.entity.renderBodyYaw = MathHelper.lerpAngleDegrees(lerpFactor, state.entity.renderBodyYaw, state.entity.bodyYaw);
+        state.entity.renderHeadYaw = MathHelper.lerpAngleDegrees(lerpFactor, state.entity.renderHeadYaw, state.entity.headYaw);
         state.entity.renderPitch = MathHelper.lerpAngleDegrees(lerpFactor, state.entity.renderPitch, state.entity.realPitch);
 
         state.entity.renderOffset = stand.getRenderOffset();
@@ -65,10 +65,6 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         state.entity.dx = MathHelper.lerp(state.tickProgress, standOwner.lastRenderX, standOwner.getX());
         state.entity.dy = MathHelper.lerp(state.tickProgress, standOwner.lastRenderY, standOwner.getY());
         state.entity.dz = MathHelper.lerp(state.tickProgress, standOwner.lastRenderZ, standOwner.getZ());
-
-//        state.entity.dx = MathHelper.lerp(state.tickProgress, state.entity.lastRenderX, state.entity.getX());
-//        state.entity.dy = MathHelper.lerp(state.tickProgress, state.entity.lastRenderY, state.entity.getY());
-//        state.entity.dz = MathHelper.lerp(state.tickProgress, state.entity.lastRenderZ, state.entity.getZ());
 
         if (state.entity.renderX == 0f && state.entity.renderY == 0f && state.entity.renderZ == 0f)
         {
@@ -85,23 +81,28 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         determinePos(state, matrices);
 
         matrices.translate(0f, state.standingEyeHeight + Math.sin(state.age / 12.0) * 0.125, 0f);
-        matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(state.entity.renderYaw));
-        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
 
+        this.model.setAngles(state);
+
+        float headBodyYawOffset = state.entity.renderHeadYaw - state.entity.renderBodyYaw;
         if (state.idle.isRunning() || (state.manifest.isRunning() || state.withdraw.isRunning()))
         {
+            matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(state.entity.renderBodyYaw));
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
+
             addRenderOffset(state, matrices);
 
-            this.model.setAngles(state);
-
-            float modelPitch = (state.entity.renderPitch / 2.0f) - 270.0f;
+            float modelPitch = state.entity.renderPitch / 2f;
             this.model.setTorsoAngles(modelPitch, 0.0f, 0.0f);
-            this.model.setHeadAngles(modelPitch, 0.0f, 0.0f);
+            this.model.setHeadAngles(modelPitch, headBodyYawOffset, 0.0f);
             matrices.translate(state.entity.floatDistance, 0F, state.entity.floatDistance);
         }
         else {
-            this.model.setAngles(state);
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(state.entity.renderPitch - 180.0f));
+            matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(state.entity.renderHeadYaw));
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
+
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(state.entity.renderPitch));
+
             matrices.translate(state.entity.floatDistance, 0F, -state.entity.floatDistance);
             addRenderOffset(state, matrices);
         }
