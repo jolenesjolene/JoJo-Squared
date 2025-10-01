@@ -4,7 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.jolene.jojosquared.JoJoSquared;
+import net.jolene.jojosquared.input.api.IKeyBindingAccessor;
 import net.jolene.jojosquared.input.api.InputModule;
+import net.jolene.jojosquared.input.api.StickyInputModule;
 import net.jolene.jojosquared.input.impl.CycleAbilityKey;
 import net.jolene.jojosquared.input.impl.PrimaryAttackKey;
 import net.jolene.jojosquared.input.impl.SecondaryAttackKey;
@@ -14,7 +16,9 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class ModKeyBindings {
@@ -58,39 +62,44 @@ public class ModKeyBindings {
         JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Registering key bindings for {}", JoJoSquared.MOD_ID);
     }
 
-    /// Handle all the registered custom inputs.
-    /// @return True if it shouldn't interfere with inputs bound to the same key, otherwise false.
-    public static boolean handleInputs()
+    public static void keyReleased(InputUtil.Key key)
     {
-        boolean shouldContinue = true;
         for (InputModule binding : BINDINGS)
         {
-            KeyBinding key = getOriginal(binding.getBinding()); // handler for duplicate keys
-            boolean isKeybindYielding = binding.invoke(key.isPressed());
-            if (isKeybindYielding != shouldContinue)
-                shouldContinue = isKeybindYielding;
-            // still continue with the custom inputs
-        }
-        return shouldContinue;
-    }
-
-    private static KeyBinding getOriginal(KeyBinding binding)
-    {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.options == null)
-            return binding;
-
-        KeyBinding original = binding;
-        for (KeyBinding b : client.options.allKeys)
-        {
-            if (!b.equals(binding))
+            if (binding instanceof StickyInputModule)
                 continue;
 
-            if (!b.getTranslationKey().equals(binding.getTranslationKey())) // lmao this is so janky but wtv
+            InputUtil.Key boundKey = IKeyBindingAccessor.get(binding.getBinding()).jojosquared$getBoundKey();
+            if (boundKey.equals(key))
+            { binding.invoke(false); }
+        }
+    }
+
+    public static void processHeldKeys(List<InputUtil.Key> heldKeys)
+    {
+        for (InputModule binding : BINDINGS)
+        {
+            InputUtil.Key boundKey = IKeyBindingAccessor.get(binding.getBinding()).jojosquared$getBoundKey();
+            boolean pressed = heldKeys.contains(boundKey);
+
+            if (binding.state == pressed)
+                continue;
+            binding.state = pressed;
+
+            if (!pressed && binding instanceof StickyInputModule)
+                continue;
+
+            if (pressed)
             {
-                original = b;
+                if (binding.isBlocking())
+                {
+                    if (!IKeyBindingAccessor.prioritizedKeys.contains(boundKey))
+                        IKeyBindingAccessor.prioritizedKeys.add(boundKey);
+                }
+                else { IKeyBindingAccessor.prioritizedKeys.remove(boundKey); }
+
+                binding.invoke(true);
             }
         }
-        return original;
     }
 }

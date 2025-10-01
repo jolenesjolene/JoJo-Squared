@@ -203,6 +203,19 @@ public abstract class Stand {
     public boolean isSummoned()
     { return this.isSummoned; }
 
+    /// Are we in a state where the stand shouldn't block inputs?
+    /// @return True if it shouldn't block inputs, otherwise false.
+    public boolean isBusy()
+    {
+        if (this.entity == null)
+            return true;
+        if (!isSummoned())
+            return true;
+
+        // TODO: make this more robust
+        return this.entity.manifest.isRunning() || this.entity.withdraw.isRunning();
+    }
+
     public void setOwner(LivingEntity owner) { this.owner = owner; }
     public @Nullable LivingEntity getOwner() { return this.owner; }
 

@@ -12,27 +12,18 @@ import net.minecraft.client.MinecraftClient;
 
 @Environment(EnvType.CLIENT)
 public class SecondaryAttackKey extends InputModule {
-    public SecondaryAttackKey() {
-        super(ModKeyBindings.secondaryAttack);
-    }
+    public SecondaryAttackKey() { super(ModKeyBindings.secondaryAttack); }
 
-    private boolean wasPressed = false;
     @Override
-    public boolean invoke(boolean pressed) {
-        if (wasPressed == pressed)
-            return false; // no work required
-
+    public void invoke(boolean pressed) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null)
-            return false;
+            return;
         IStandOwner standOwner = IStandOwner.get(client.player);
         Stand stand = standOwner.jojosquared$getStand();
 
-        if (stand == null || !stand.isSummoned())
-        {
-            wasPressed = pressed;
-            return false;
-        }
+        if (stand == null || stand.isBusy())
+            return;
 
         if (pressed)
         {
@@ -43,8 +34,17 @@ public class SecondaryAttackKey extends InputModule {
             stand.releaseAtk(PressContext.SECONDARY);
             JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Releasing secondary attack");
         }
+    }
 
-        wasPressed = pressed;
-        return false;
+    @Override
+    public boolean isBlocking() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null)
+        { return false; }
+
+        IStandOwner standOwner = IStandOwner.get(client.player);
+        Stand stand = standOwner.jojosquared$getStand();
+
+        return stand != null && !stand.isBusy();
     }
 }
