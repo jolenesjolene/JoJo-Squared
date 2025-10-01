@@ -27,6 +27,7 @@ public class JoJoSquaredClient implements ClientModInitializer {
     public void onInitializeClient() {
         //Particle Factory
         ParticleFactoryRegistry.getInstance().register(ModParticles.MENACING, Menacing.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.SPARKLE, EquivalentExchange.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.EQUIVALENT_EXCHANGE, EquivalentExchange.Factory::new);
         BlockRenderLayerMap.putBlock(ModBlocks.ROKAKAKA_PLANT, BlockRenderLayer.CUTOUT);
         BlockRenderLayerMap.putBlock(ModBlocks.ROKAKAKA_PLANT_TOP, BlockRenderLayer.CUTOUT);

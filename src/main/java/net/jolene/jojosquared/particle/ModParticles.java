@@ -11,6 +11,8 @@ import net.minecraft.util.Identifier;
 public class ModParticles {
     public static final SimpleParticleType MENACING =
             registerParticle("menacing", FabricParticleTypes.simple());
+    public static final SimpleParticleType SPARKLE =
+            registerParticle("sparkle", FabricParticleTypes.simple());
     public static final SimpleParticleType EQUIVALENT_EXCHANGE =
             registerParticle("equivalent_exchange", FabricParticleTypes.simple());
 

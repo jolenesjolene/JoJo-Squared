@@ -43,6 +43,9 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
     public void render(StarPlatinumRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         if (state.entity == null)
             return;
+        model.setAngles(state);  // but `state` must have tickDelta set
+
+
 
         Stand owner = state.entity.getOwner();
         if (owner == null)

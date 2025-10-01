@@ -56,7 +56,7 @@
 
   "_comment_keybinds": "beep boop i'm straight keybinding it rn",
   "category.jojosquared.stand": "JoJo² Stands",
-  "key.jojosquared.summon_stand": "Manifest",
+  "key.jojosquared.summon_stand": "Manifest / Withdraw",
   "key.jojosquared.primary_attack": "Primary Attack",
   "key.jojosquared.secondary_attack": "Secondary Attack",
   "key.jojosquared.cycle_ability": "Cycle Ability",
@@ -65,5 +65,11 @@
   "ability.jojosquared.sp_default": "Default",
   "ability.jojosquared.sp_special": "Special",
   "ability.jojosquared.sp_utility_primary": "Utility Primary",
-  "ability.jojosquared.sp_utility_secondary": "Utility Secondary"
+  "ability.jojosquared.sp_utility_secondary": "Utility Secondary",
+
+  "_comment_sounds": "Soundies!",
+  "sounds.jojosquared.manifest": "User manifests Stand",
+  "sounds.jojosquared.withdraw": "User withdraws Stand",
+  "sounds.jojosquared.swing": "Stand swings",
+  "sounds.jojosquared.cycle": "Ability cycle"
 }

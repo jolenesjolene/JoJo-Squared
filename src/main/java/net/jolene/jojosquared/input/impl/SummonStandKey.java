@@ -6,6 +6,7 @@ import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.input.ModKeyBindings;
 import net.jolene.jojosquared.input.api.InputModule;
 import net.jolene.jojosquared.input.api.StickyInputModule;
+import net.jolene.jojosquared.particle.ModParticles;
 import net.jolene.jojosquared.sound.ModSounds;
 import net.jolene.jojosquared.stand.api.Stand;
 import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
@@ -29,12 +30,12 @@ public class SummonStandKey extends StickyInputModule {
             if (!stand.isSummoned()) {
                 stand.summon();
                 JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Summoning stand");
-                float pitch = 0.9f + client.player.getRandom().nextFloat() * 0.2f;
+                float pitch = 1.0f + client.player.getRandom().nextFloat() * 0.2f;
                 client.player.playSound(ModSounds.MANIFEST_STAND, 1f, pitch);
             } else {
                 stand.withdraw();
                 JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Removing stand");
-                float pitch = 0.9f + client.player.getRandom().nextFloat() * 0.2f;
+                float pitch = 1.0f + client.player.getRandom().nextFloat() * 0.2f;
                 client.player.playSound(ModSounds.WITHDRAW_STAND, 1f, pitch);
             }
         }

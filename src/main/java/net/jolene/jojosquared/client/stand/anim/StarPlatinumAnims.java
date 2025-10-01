@@ -1,9 +1,9 @@
-package net.jolene.jojosquared.client.stand.anim;// Save this class in your mod and generate all required imports
+package net.jolene.jojosquared.client.stand.anim;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.render.entity.animation.*;
 // Save this class in your mod and generate all required imports
+
+import net.minecraft.client.render.entity.animation.*;
+
 /**
  * Made with Blockbench 4.12.6
  * Exported for Minecraft version 1.19 or later with Yarn mappings
