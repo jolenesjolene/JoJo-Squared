@@ -55,6 +55,13 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         state.entity.headYaw = standOwner.getHeadYaw();
         state.entity.realPitch = standOwner.getPitch();
 
+        if (state.entity.renderBodyYaw == Float.MIN_VALUE || state.entity.renderHeadYaw == Float.MIN_VALUE || state.entity.renderPitch == Float.MIN_VALUE)
+        {
+            state.entity.renderBodyYaw = state.entity.bodyYaw;
+            state.entity.renderHeadYaw = state.entity.headYaw;
+            state.entity.renderPitch = state.entity.realPitch;
+        }
+
         float lerpFactor = 0.1f;
         state.entity.renderBodyYaw = MathHelper.lerpAngleDegrees(lerpFactor, state.entity.renderBodyYaw, state.entity.bodyYaw);
         state.entity.renderHeadYaw = MathHelper.lerpAngleDegrees(lerpFactor, state.entity.renderHeadYaw, state.entity.headYaw);

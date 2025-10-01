@@ -118,7 +118,7 @@ public abstract class Stand {
     {
         if (entity != null)
         {
-            entity.remove(Entity.RemovalReason.DISCARDED);
+            entity.discard();
             entity = null;
             JoJoSquared.LOGGER.info("[{} (JoJoSquared/Stand|Withdraw)]: Removed entity!", (this.owner.getWorld().isClient ? "Client" : "Server"));
         }

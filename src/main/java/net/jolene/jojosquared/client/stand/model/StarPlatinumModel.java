@@ -96,8 +96,6 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 		this.default_1.apply(state.default_1, state.age);
 		this.default_2.apply(state.default_2, state.age);
 		this.default_3.apply(state.default_3, state.age);
-
-		JoJoSquared.LOGGER.info("Applied anims!");
 	}
 
 	public void setTorsoAngles(float pitch, float yaw, float roll)
