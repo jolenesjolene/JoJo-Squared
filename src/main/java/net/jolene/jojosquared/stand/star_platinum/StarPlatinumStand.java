@@ -2,7 +2,7 @@ package net.jolene.jojosquared.stand.star_platinum;
 
 import net.jolene.jojosquared.entity.ModEntities;
 import net.jolene.jojosquared.stand.api.Stand;
-import net.jolene.jojosquared.stand.api.StandAbility;
+import net.jolene.jojosquared.stand.api.ability.StandAbility;
 import net.jolene.jojosquared.stand.star_platinum.ability.SPDefault;
 import net.jolene.jojosquared.stand.star_platinum.ability.SPSpecial;
 import net.jolene.jojosquared.stand.star_platinum.ability.SPUtilityPrimary;
@@ -18,7 +18,7 @@ public class StarPlatinumStand extends Stand {
         this.setAbilities(createAbilities());
     }
 
-    public List<? extends StandAbility> createAbilities()
+    public List<StandAbility> createAbilities()
     {
         return List.of(
                 new SPDefault(this),

@@ -1,4 +1,4 @@
-package net.jolene.jojosquared.stand.api;
+package net.jolene.jojosquared.stand.api.ability;
 
 public interface PressContext {
     /// Usually left click

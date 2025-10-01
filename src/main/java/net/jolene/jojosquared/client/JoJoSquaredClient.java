@@ -9,6 +9,10 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.block.ModBlocks;
 import net.jolene.jojosquared.client.stand.model.StarPlatinumModel;
 import net.jolene.jojosquared.client.stand.renderer.StarPlatinumRenderer;
@@ -19,7 +23,12 @@ import net.jolene.jojosquared.network.payload.MessageS2CPayload;
 import net.jolene.jojosquared.particle.EquivalentExchange;
 import net.jolene.jojosquared.particle.Menacing;
 import net.jolene.jojosquared.particle.ModParticles;
+import net.jolene.jojosquared.stand.api.ability.IRegionAbility;
+import net.jolene.jojosquared.stand.api.ability.StandAbility;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BlockRenderLayer;
+
+import java.util.HashSet;
 
 @Environment(EnvType.CLIENT)
 public class JoJoSquaredClient implements ClientModInitializer {
@@ -40,5 +49,17 @@ public class JoJoSquaredClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(MessageS2CPayload.ID, (payload, context) -> {
             context.client().execute(() -> PacketRegistry.invoke(PacketRegistry.MESSAGES2C, null, payload.args()));
         });
+
+        HudElementRegistry.attachElementBefore(VanillaHudElements.MISC_OVERLAYS, JoJoSquared.location("timestop"), ((context, tickCounter) -> {
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client.player == null || client.world == null)
+                return;
+
+            HashSet<StandAbility> abilities = IRegionAbility.get(client.world).jojosquared$getAffectedBy(client.player, false);
+            if (abilities == null || abilities.isEmpty())
+                return;
+
+            context.fill(0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), 0x7D000000);
+        }));
     }
 }

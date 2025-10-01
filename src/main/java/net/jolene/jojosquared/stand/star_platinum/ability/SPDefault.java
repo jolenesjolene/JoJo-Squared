@@ -2,11 +2,10 @@ package net.jolene.jojosquared.stand.star_platinum.ability;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.jolene.jojosquared.client.stand.state.StarPlatinumRenderState;
 import net.jolene.jojosquared.network.payload.ModNetworking;
 import net.jolene.jojosquared.sound.ModSounds;
-import net.jolene.jojosquared.stand.api.PressContext;
-import net.jolene.jojosquared.stand.api.StandAbility;
+import net.jolene.jojosquared.stand.api.ability.PressContext;
+import net.jolene.jojosquared.stand.api.ability.StandAbility;
 import net.jolene.jojosquared.stand.api.StandEntity;
 import net.jolene.jojosquared.stand.api.hitbox.StandAbilityHitbox;
 import net.jolene.jojosquared.stand.api.network.StandC2SContext;

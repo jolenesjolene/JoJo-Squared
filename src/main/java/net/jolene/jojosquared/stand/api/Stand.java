@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.network.api.MessageListener;
 import net.jolene.jojosquared.network.payload.ModNetworking;
+import net.jolene.jojosquared.stand.api.ability.StandAbility;
 import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
 import net.jolene.jojosquared.stand.api.network.StandC2SContext;
 import net.jolene.jojosquared.stand.api.network.StandS2CContext;
@@ -31,7 +32,7 @@ public abstract class Stand {
     private final EntityType<? extends StandEntity> type;
     private @Nullable StandEntity entity;
 
-    private List<? extends StandAbility> abilities;
+    private List<StandAbility> abilities;
     private int currentAbilityIndex = 0;
     private LivingEntity owner;
     private boolean isSummoned = false;
@@ -59,12 +60,14 @@ public abstract class Stand {
         JoJoSquared.LOGGER.info("[{} (JoJoSquared/Stand|Ctor)]: Created Stand class for entity {} ({})", (this.owner.getWorld().isClient ? "Client" : "Server"), owner.getClass().getSimpleName(), (instanceOwns ? "owned by instance" : "not owned by instance"));
     }
 
-    public void setAbilities(List<? extends StandAbility> abilities)
+    public void setAbilities(List<StandAbility> abilities)
     {
         assert abilities.size() <= 4 : "Attempted to set abilities to a list bigger than 4!";
         JoJoSquared.LOGGER.info("Created Abilities | Abilities Hash: {}", ((Object)abilities).toString());
         this.abilities = abilities;
     }
+    public List<StandAbility> getAbilities()
+    { assert this.abilities != null : "Requested abilties but abilities was null!"; return this.abilities; }
 
     private List<Pair<Integer, Runnable>> tickRuns = new ArrayList<>();
     public void tick() {
@@ -125,6 +128,8 @@ public abstract class Stand {
     }
 
     public void summon() {
+        quietWithdraw(); // cleanup if we need to
+
         isSummoned = true;
         World world = owner.getWorld();
 
@@ -136,8 +141,6 @@ public abstract class Stand {
         }
         else {
             JoJoSquared.LOGGER.info("[Server (JoJoSquared/Stand|Summon)]: Entity: {}!", entity);
-            if (entity != null)
-                return; // no work to be done here
             if (owner == null)
                 throw new RuntimeException("Failed to summon stand! Owner was null!");
 

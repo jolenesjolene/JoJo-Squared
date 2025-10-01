@@ -33,6 +33,8 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 	public Animation default_1;
 	public Animation default_2;
 	public Animation default_3;
+	public Animation special_hold;
+	public Animation special;
 
 	public StarPlatinumModel(ModelPart root) {
 		super(root);
@@ -54,6 +56,8 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 		this.default_1 = StarPlatinumAnims.default_1.createAnimation(root);
 		this.default_2 = StarPlatinumAnims.default_2.createAnimation(root);
 		this.default_3 = StarPlatinumAnims.default_3.createAnimation(root);
+		this.special_hold = StarPlatinumAnims.special_hold.createAnimation(root);
+		this.special = StarPlatinumAnims.special.createAnimation(root);
 	}
 
 	public static TexturedModelData getTexturedModelData() {
@@ -96,6 +100,8 @@ public class StarPlatinumModel<T extends StandEntity> extends EntityModel<StarPl
 		this.default_1.apply(state.default_1, state.age);
 		this.default_2.apply(state.default_2, state.age);
 		this.default_3.apply(state.default_3, state.age);
+		this.special_hold.apply(state.special_hold, state.age);
+		this.special.apply(state.special, state.age);
 	}
 
 	public void setTorsoAngles(float pitch, float yaw, float roll)

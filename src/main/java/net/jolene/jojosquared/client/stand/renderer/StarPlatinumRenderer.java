@@ -139,6 +139,8 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         state.default_1.copyFrom(entity.default_1);
         state.default_2.copyFrom(entity.default_2);
         state.default_3.copyFrom(entity.default_3);
+        state.special_hold.copyFrom(entity.special_hold);
+        state.special.copyFrom(entity.special);
     }
 
     private void determinePos(StarPlatinumRenderState state, MatrixStack matrices)

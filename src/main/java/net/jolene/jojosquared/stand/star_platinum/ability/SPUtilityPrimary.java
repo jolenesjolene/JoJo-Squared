@@ -1,6 +1,6 @@
 package net.jolene.jojosquared.stand.star_platinum.ability;
 
-import net.jolene.jojosquared.stand.api.StandAbility;
+import net.jolene.jojosquared.stand.api.ability.StandAbility;
 import net.jolene.jojosquared.stand.star_platinum.StarPlatinumStand;
 
 public class SPUtilityPrimary extends StandAbility {

@@ -3,6 +3,8 @@
   "package": "net.jolene.jojosquared.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "RegionAbilityImpl",
+    "ServerRegionAbilityImpl",
     "StandOwnerImpl"
   ],
   "injectors": {
@@ -12,6 +14,7 @@
     "requireAnnotations": true
   },
   "client": [
+    "ClientRegionAbilityImpl",
     "KeyBindingAccessorImpl",
     "MinecraftClientMixin"
   ]
