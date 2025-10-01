@@ -33,13 +33,14 @@ public class SecondaryAttackKey extends InputModule {
 
     @Override
     public boolean isBlocking() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null)
-        { return false; }
-
-        IStandOwner standOwner = IStandOwner.get(client.player);
-        Stand stand = standOwner.jojosquared$getStand();
-
-        return stand != null && !stand.isBusy();
+        return false;
+//        MinecraftClient client = MinecraftClient.getInstance();
+//        if (client.player == null)
+//        { return false; }
+//
+//        IStandOwner standOwner = IStandOwner.get(client.player);
+//        Stand stand = standOwner.jojosquared$getStand();
+//
+//        return stand != null && !stand.isBusy();
     }
 }
