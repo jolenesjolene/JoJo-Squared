@@ -90,10 +90,16 @@ public class SPDefault extends StandAbility {
 
                 if (world.isClient)
                 {
-                    Vec3d punchOffset = Vec3d.fromPolar(parent.getOwner().getPitch(), parent.getOwner().getHeadYaw()).multiply(2.15f);
-                    hitbox = new StandAbilityHitbox(pos.add(punchOffset), new Vec3d(0.4f, 0.45f, 0.4f), parent.getEntity().age, 3);
+                    float hitboxSize = 0.8f;
+                    float hitboxDistance = 2.5f;
+
+                    Vec3d punchOffset = Vec3d.fromPolar(parent.getOwner().getPitch(), parent.getOwner().getHeadYaw()).multiply(hitboxDistance);
+                    hitbox = new StandAbilityHitbox(pos.add(punchOffset), new Vec3d(hitboxSize, hitboxSize, hitboxSize), parent.getEntity().age, 3);
                     for (LivingEntity ent : hitbox.getEntitiesInside(parent.getOwner().getWorld()))
                     {
+                        if (ent.equals(parent.getOwner()))
+                            continue;
+
                         ModNetworking.sendMessageC2S("base_stand_atk_c2s", ent.getId(), 1 + punchCombo, StandC2SContext.DAMAGE_ENTITY);
                     }
                 }
