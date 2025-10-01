@@ -25,7 +25,8 @@ public class StandOwnerImpl implements IStandOwner {
 
     @Override @Unique
     public void jojosquared$setStand(@NotNull Stand stand) {
-        this.stand.withdraw();
+        if (this.stand != null)
+            this.stand.withdraw();
 
         this.stand = stand;
         stand.setOwner((LivingEntity)(Object)this);
@@ -38,7 +39,7 @@ public class StandOwnerImpl implements IStandOwner {
         if (stand != null)
             return;
         LivingEntity self = ((LivingEntity) (Object)this);
-        if (self.isRemoved())
+        if (self.isRemoved() || self.isDead())
             return;
 
         JoJoSquared.LOGGER.info("[{} (JoJoSquared/Stand|LivingEntity)]: Giving stand to entity of class {}", (self.getWorld().isClient ? "Client" : "Server"), self.getClass().getSimpleName());

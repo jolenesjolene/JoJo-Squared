@@ -5,18 +5,12 @@ import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.stand.api.StandEntity;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.entity.AnimationState;
-import net.minecraft.util.math.Vec3d;
-
-import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class StarPlatinumRenderState extends EntityRenderState {
     public StandEntity entity;
-    public boolean owns;
+    public double tickProgress;
 
-    public float floatDistance = 0.425f;
-
-    public List<AnimationState> animStates;
     public AnimationState manifest = new AnimationState();
     public AnimationState withdraw = new AnimationState();
     public AnimationState idle = new AnimationState();
@@ -25,7 +19,4 @@ public class StarPlatinumRenderState extends EntityRenderState {
     public AnimationState default_1 = new AnimationState();
     public AnimationState default_2 = new AnimationState();
     public AnimationState default_3 = new AnimationState();
-
-    public StarPlatinumRenderState()
-    { }
 }

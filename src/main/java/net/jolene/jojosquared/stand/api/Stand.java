@@ -59,6 +59,7 @@ public abstract class Stand {
     public void setAbilities(List<? extends StandAbility> abilities)
     {
         assert abilities.size() <= 4 : "Attempted to set abilities to a list bigger than 4!";
+        JoJoSquared.LOGGER.info("Created Abilities | Abilities Hash: {}", ((Object)abilities).toString());
         this.abilities = abilities;
     }
 
@@ -80,7 +81,7 @@ public abstract class Stand {
             }
         }
 
-        if (instanceOwns) { setPosToOwner(); }
+        setPosToOwner();
 
         for (StandAbility ability : abilities)
         { ability.tick(); }
@@ -97,22 +98,23 @@ public abstract class Stand {
     public void withdraw() {
         isSummoned = false;
         World world = owner.getWorld();
+
         if (entity != null)
         {
-            tickRuns.add(new Pair<>(5, ()->{
-                entity.remove(Entity.RemovalReason.DISCARDED);
-                entity = null;
+            if (world.isClient)
+            {
+                ModNetworking.sendMessageC2S("base_stand_c2s", StandC2SContext.DESUMMON_STAND);
+                this.entity.setAnimation(StandEntity.Animations.WITHDRAW, 5);
+            }
+
+            tickRuns.add(new Pair<>(4, ()->{
+                if (entity != null)
+                {
+                    entity.remove(Entity.RemovalReason.DISCARDED);
+                    entity = null;
+                    JoJoSquared.LOGGER.info("[{} (JoJoSquared)]: Removed entity!", (this.owner.getWorld().isClient ? "Client" : "Server"));
+                }
             }));
-
-            JoJoSquared.LOGGER.info("[{} (JoJoSquared)]: Removed entity!", (this.owner.getWorld().isClient ? "Client" : "Server"));
-        }
-
-        if (world.isClient)
-        {
-            if (entity != null)
-                entity.setAnimation(StandEntity.Animations.WITHDRAW);
-
-            ModNetworking.sendMessageC2S("base_stand_c2s", StandC2SContext.DESUMMON_STAND);
         }
     }
 
@@ -151,6 +153,7 @@ public abstract class Stand {
             entity.discard();
             entity = null;
         }
+        tickRuns.clear();
         owner = null;
         abilities = null;
         renderOffset = null;
@@ -225,6 +228,8 @@ public abstract class Stand {
     public void setPosToOwner() {
         if (this.entity == null || this.owner == null)
             return;
+        if (!instanceOwns || !this.entity.instanceOwns)
+            return;
 
         this.entity.setPos(this.owner.getX(), this.owner.getY(), this.owner.getZ());
 
@@ -245,17 +250,6 @@ public abstract class Stand {
     public void setRenderOffset(Vec3d offset) { this.renderOffset = offset; }
     public void addRenderOffset(Vec3d offset) { this.renderOffset = this.renderOffset.add(offset); }
     public void clearRenderOffset() { this.renderOffset = new Vec3d(0.,0., 0.); }
-
-    public abstract int animationCount();
-    public List<AnimationState> createAnimationStates()
-    {
-        int count = this.animationCount();
-        List<AnimationState> list = new ArrayList<>(count);
-        for (int i = 0; i < count; i++) {
-            list.add(new AnimationState());
-        }
-        return list;
-    }
 
     public static class BaseStandNetworking
     {
@@ -365,10 +359,10 @@ public abstract class Stand {
                     case StandS2CContext.ENTITY_SUMMONED_STAND -> {
                         if (client.world.getEntityById(standId) instanceof StandEntity stand)
                         {
+                            ownerStand.owner = ownerEnt;
                             ownerStand.entity = stand;
                             ownerStand.entity.setAnimation(StandEntity.Animations.MANIFEST, 10);
                             stand.setOwner(ownerStand);
-                            JoJoSquared.LOGGER.info("[Client (JoJo Squared/Networking|Stand)]: Setup stand for entity with id {}", ownerId);
                         }
                     }
                     case StandS2CContext.ENTITY_DESUMMONED_STAND -> {

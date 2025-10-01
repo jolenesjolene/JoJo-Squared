@@ -26,14 +26,9 @@ public class SecondaryAttackKey extends InputModule {
             return;
 
         if (pressed)
-        {
             stand.attack(PressContext.SECONDARY);
-            JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Doing secondary attack");
-        }
-        else {
+        else
             stand.releaseAtk(PressContext.SECONDARY);
-            JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Releasing secondary attack");
-        }
     }
 
     @Override

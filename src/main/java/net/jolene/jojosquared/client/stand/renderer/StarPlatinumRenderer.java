@@ -8,7 +8,6 @@ import net.jolene.jojosquared.client.stand.model.StarPlatinumModel;
 import net.jolene.jojosquared.client.stand.state.StarPlatinumRenderState;
 import net.jolene.jojosquared.stand.api.Stand;
 import net.jolene.jojosquared.stand.api.StandEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -47,14 +46,38 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
 
 
 
-        Stand owner = state.entity.getOwner();
-        if (owner == null)
+        Stand stand = state.entity.getOwner();
+        if (stand == null)
             return;
-        LivingEntity ownerEnt = owner.getOwner();
-        if (ownerEnt == null)
+        LivingEntity standOwner = stand.getOwner();
+        if (standOwner == null)
             return;
 
-        owner.render(state, matrices, state.age, vertexConsumers);
+        state.entity.realYaw = standOwner.getBodyYaw(); // left-right
+        state.entity.realPitch = (standOwner.getPitch() - 180.f) % 360.0f; // up-down
+
+        float lerpFactor = 0.1f;
+        state.entity.renderYaw = MathHelper.lerpAngleDegrees(lerpFactor, state.entity.renderYaw, state.entity.realYaw);
+        state.entity.renderPitch = MathHelper.lerpAngleDegrees(lerpFactor, state.entity.renderPitch, state.entity.realPitch);
+
+        state.entity.renderOffset = stand.getRenderOffset();
+
+        state.entity.dx = MathHelper.lerp(state.tickProgress, standOwner.lastRenderX, standOwner.getX());
+        state.entity.dy = MathHelper.lerp(state.tickProgress, standOwner.lastRenderY, standOwner.getY());
+        state.entity.dz = MathHelper.lerp(state.tickProgress, standOwner.lastRenderZ, standOwner.getZ());
+
+//        state.entity.dx = MathHelper.lerp(state.tickProgress, state.entity.lastRenderX, state.entity.getX());
+//        state.entity.dy = MathHelper.lerp(state.tickProgress, state.entity.lastRenderY, state.entity.getY());
+//        state.entity.dz = MathHelper.lerp(state.tickProgress, state.entity.lastRenderZ, state.entity.getZ());
+
+        if (state.entity.renderX == 0f && state.entity.renderY == 0f && state.entity.renderZ == 0f)
+        {
+            state.entity.renderX = state.entity.dx;
+            state.entity.renderY = state.entity.dy;
+            state.entity.renderZ = state.entity.dz;
+        }
+
+        stand.render(state, matrices, state.age, vertexConsumers);
 
         matrices.push();
 
@@ -65,7 +88,7 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
         matrices.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(state.entity.renderYaw));
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180.0f));
 
-        if (state.entity.idle.isRunning() || (state.entity.manifest.isRunning() || state.entity.withdraw.isRunning()))
+        if (state.idle.isRunning() || (state.manifest.isRunning() || state.withdraw.isRunning()))
         {
             addRenderOffset(state, matrices);
 
@@ -74,12 +97,12 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
             float modelPitch = (state.entity.renderPitch / 2.0f) - 270.0f;
             this.model.setTorsoAngles(modelPitch, 0.0f, 0.0f);
             this.model.setHeadAngles(modelPitch, 0.0f, 0.0f);
-            matrices.translate(state.floatDistance, 0F, state.floatDistance);
+            matrices.translate(state.entity.floatDistance, 0F, state.entity.floatDistance);
         }
         else {
             this.model.setAngles(state);
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(state.entity.renderPitch - 180.0f));
-            matrices.translate(state.floatDistance, 0F, -state.floatDistance);
+            matrices.translate(state.entity.floatDistance, 0F, -state.entity.floatDistance);
             addRenderOffset(state, matrices);
         }
 
@@ -92,71 +115,31 @@ public class StarPlatinumRenderer extends EntityRenderer<StandEntity, StarPlatin
     }
 
     @Override // gets called before render, sets up the state
+    // NOTE: state has to be deterministic. states are shared between entities!!!
     public void updateRenderState(StandEntity entity,
                                   StarPlatinumRenderState state,
                                   float tickProgress) {
         super.updateRenderState(entity, state, tickProgress); // sets standingEyeHeight, x, y, z, etc...
-
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null)
-            return;
-        if (entity.getOwner() == null || entity.getOwner().getOwner() == null)
-            return;
-
-        state.owns = entity.getOwner().getOwner().equals(client.player);
-//        if (!state.owns)
-//            return;
-
         state.entity = entity;
+        state.tickProgress = tickProgress;
 
-        state.entity.realYaw = entity.getBodyYaw(); // left-right
-        state.entity.realPitch = (entity.getPitch() - 180.f) % 360.0f; // up-down
-
-        float lerpFactor = 0.1f;
-        state.entity.renderYaw = MathHelper.lerpAngleDegrees(lerpFactor, state.entity.renderYaw, state.entity.realYaw);
-        state.entity.renderPitch = MathHelper.lerpAngleDegrees(lerpFactor, state.entity.renderPitch, state.entity.realPitch);
-
-        state.entity.renderOffset = state.entity.getOwner().getRenderOffset();
-
-        LivingEntity ownerEnt = state.entity.getOwner().getOwner();
-        if (ownerEnt == null)
-            return;
-
-        // Minecraft automatically interpolates state.x,y,z but we don't want their way of doing it
-        state.entity.desiredX = entity.getX();
-        state.entity.desiredY = entity.getY();
-        state.entity.desiredZ = entity.getZ();
-
-        if (state.entity.renderX == 0f && state.entity.renderY == 0f && state.entity.renderZ == 0f)
-        {
-            state.entity.renderX = state.entity.desiredX;
-            state.entity.renderY = state.entity.desiredY;
-            state.entity.renderZ = state.entity.desiredZ;
-        }
-
-        if (state.animStates == null)
-        {
-            if (entity.getOwner() != null)
-                state.animStates = entity.getOwner().createAnimationStates();
-        }
-
-        state.manifest.copyFrom(state.entity.manifest);
-        state.withdraw.copyFrom(state.entity.withdraw);
-        state.passive.copyFrom(state.entity.passive);
-        state.idle.copyFrom(state.entity.idle);
-        state.default_hold.copyFrom(state.entity.default_hold);
-        state.default_1.copyFrom(state.entity.default_1);
-        state.default_2.copyFrom(state.entity.default_2);
-        state.default_3.copyFrom(state.entity.default_3);
+        state.manifest.copyFrom(entity.manifest);
+        state.withdraw.copyFrom(entity.withdraw);
+        state.passive.copyFrom(entity.passive);
+        state.idle.copyFrom(entity.idle);
+        state.default_hold.copyFrom(entity.default_hold);
+        state.default_1.copyFrom(entity.default_1);
+        state.default_2.copyFrom(entity.default_2);
+        state.default_3.copyFrom(entity.default_3);
     }
 
     private void determinePos(StarPlatinumRenderState state, MatrixStack matrices)
     {
-        double lerpFactor = 0.1;
+        double lerpFactor = 0.9;
 
-        state.entity.renderX += (state.entity.desiredX - state.entity.renderX) * lerpFactor;
-        state.entity.renderY += (state.entity.desiredY - state.entity.renderY) * lerpFactor;
-        state.entity.renderZ += (state.entity.desiredZ - state.entity.renderZ) * lerpFactor;
+        state.entity.renderX += (state.entity.dx - state.entity.renderX) * lerpFactor;
+        state.entity.renderY += (state.entity.dy - state.entity.renderY) * lerpFactor;
+        state.entity.renderZ += (state.entity.dz - state.entity.renderZ) * lerpFactor;
 
         matrices.translate(state.entity.renderX, state.entity.renderY, state.entity.renderZ);
     }

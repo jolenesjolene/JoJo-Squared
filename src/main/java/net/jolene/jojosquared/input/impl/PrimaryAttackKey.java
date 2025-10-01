@@ -27,14 +27,9 @@ public class PrimaryAttackKey extends InputModule {
             return;
 
         if (pressed)
-        {
             stand.attack(PressContext.PRIMARY);
-            JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Doing primary attack");
-        }
-        else {
+        else
             stand.releaseAtk(PressContext.PRIMARY);
-            JoJoSquared.LOGGER.info("[Client (JoJoSquared/Keybindings)]: Releasing primary attack");
-        }
     }
 
     @Override
