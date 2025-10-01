@@ -17,6 +17,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class SPDefault extends StandAbility {
     private final StarPlatinumStand parent;
@@ -99,7 +100,8 @@ public class SPDefault extends StandAbility {
                         if (ent.equals(parent.getOwner()))
                             continue;
 
-                        ModNetworking.sendMessageC2S("base_stand_atk_c2s", ent.getId(), 2 + (punchCombo * 2), StandC2SContext.DAMAGE_ENTITY);
+                        //ModNetworking.sendMessageC2S("base_stand_atk_c2s", ent.getId(), 2 + (punchCombo * 2), StandC2SContext.DAMAGE_ENTITY);
+                        parent.damageEntity(ent, null, 2.0f + (punchCombo * 2.0f));
                     }
                 }
             }

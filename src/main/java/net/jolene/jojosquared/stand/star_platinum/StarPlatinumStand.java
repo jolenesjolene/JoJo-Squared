@@ -32,4 +32,15 @@ public class StarPlatinumStand extends Stand {
     public void tick() {
         super.tick();
     }
+
+    private boolean hasStoppedTime = false;
+    @Override
+    public boolean hasStoppedTime() {
+        return hasStoppedTime;
+    }
+
+    public void setStoppedTime(boolean val)
+    {
+        hasStoppedTime = val;
+    }
 }

@@ -14,6 +14,8 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.*;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Pair;
@@ -21,9 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /// The Stand class, acting as a home for all the attached parts.
 /// Extend this class to make a stand & provide functionality.
@@ -292,6 +292,53 @@ public abstract class Stand {
     public void setRenderOffset(Vec3d offset) { this.renderOffset = offset; }
     public void addRenderOffset(Vec3d offset) { this.renderOffset = this.renderOffset.add(offset); }
     public void clearRenderOffset() { this.renderOffset = new Vec3d(0.,0., 0.); }
+
+    public abstract boolean hasStoppedTime();
+    private final HashMap<LivingEntity, Float> timestopDamageQueue = new HashMap<>();
+
+    public void damageEntity(LivingEntity entity, @Nullable DamageSource source, float amount)
+    {
+        if (hasStoppedTime())
+        {
+            if (timestopDamageQueue.containsKey(entity))
+            {
+                timestopDamageQueue.put(entity, timestopDamageQueue.get(entity) + amount);
+                return;
+            }
+            timestopDamageQueue.put(entity, amount);
+            return;
+        }
+
+        if (owner == null || owner.getWorld() == null)
+            return;
+
+        if (owner.getWorld().isClient)
+        {
+            ModNetworking.sendMessageC2S("base_stand_atk_c2s", entity.getId(), (int)amount, StandC2SContext.DAMAGE_ENTITY);
+        }
+        else {
+            ServerWorld sworld = (ServerWorld)owner.getWorld();
+            if (source == null)
+            {
+                if (owner instanceof PlayerEntity player)
+                    source = sworld.getDamageSources().playerAttack(player);
+                else
+                    source = sworld.getDamageSources().generic();
+            }
+
+            entity.damage(sworld, source, amount);
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void flushTimestopDamage()
+    {
+        for (Map.Entry<LivingEntity, Float> pair : timestopDamageQueue.entrySet())
+        {
+            damageEntity(pair.getKey(), null, pair.getValue());
+        }
+        timestopDamageQueue.clear();
+    }
 
     public static class BaseStandNetworking
     {

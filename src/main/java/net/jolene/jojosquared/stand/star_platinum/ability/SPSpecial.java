@@ -40,7 +40,9 @@ public class SPSpecial extends StandAbility {
             {
                 if (IRegionAbility.REGION_ABILITIES.get(ownerWorld).contains(this))
                 {
+                    parent.setStoppedTime(false);
                     IRegionAbility.removeAbility(owner, ownerWorld, this);
+                    parent.flushTimestopDamage();
                     justReleased = true;
                     return; // untimestop
                 }
@@ -79,6 +81,7 @@ public class SPSpecial extends StandAbility {
         if (context == PressContext.PRIMARY)
         {
             IRegionAbility.addAbility(owner, ownerWorld, this);
+            parent.setStoppedTime(true);
             if (parent.getOwner().getWorld().isClient)
             {
                 standEntity.setAnimation(StandEntity.Animations.SPECIAL, 20);
