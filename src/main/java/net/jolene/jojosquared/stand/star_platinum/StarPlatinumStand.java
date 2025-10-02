@@ -35,12 +35,6 @@ public class StarPlatinumStand extends Stand {
 
     private boolean hasStoppedTime = false;
     @Override
-    public boolean hasStoppedTime() {
-        return hasStoppedTime;
-    }
-
-    public void setStoppedTime(boolean val)
-    {
-        hasStoppedTime = val;
-    }
+    public boolean hasStoppedTime() { return hasStoppedTime; }
+    public void setStoppedTime(boolean val) { hasStoppedTime = val; }
 }
