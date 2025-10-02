@@ -33,9 +33,7 @@
 		"fabricloader": ">=0.17.2",
 		"minecraft": "~1.21.8",
 		"java": ">=21",
-		"fabric-api": "*",
-		"iris": ">=1.9.2",
-		"sodium": ">=0.7.0"
+		"fabric-api": "*"
 	},
 	"suggests": {
 		"another-mod": "*"
