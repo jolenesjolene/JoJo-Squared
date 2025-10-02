@@ -42,9 +42,6 @@ dependencies {
 	// Mod Dependencies
 	modRuntimeOnly("maven.modrinth:iris:1.9.2+1.21.8-fabric")
 	modRuntimeOnly("maven.modrinth:sodium:mc1.21.8-0.7.0-fabric")
-
-	//modImplementation name: "iris-fabric-${project.iris_version}+mc${project.minecraft_version}"
-	//modImplementation name: "sodium-fabric-${project.sodium_version}+mc${project.minecraft_version}"
 }
 
 processResources {
