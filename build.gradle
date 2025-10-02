@@ -40,7 +40,6 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// Mod Dependencies
-	// Iris
 	modRuntimeOnly("maven.modrinth:iris:1.9.2+1.21.8-fabric")
 	modRuntimeOnly("maven.modrinth:sodium:mc1.21.8-0.7.0-fabric")
 
