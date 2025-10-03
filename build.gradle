@@ -24,6 +24,11 @@ fabricApi {
 	}
 }
 
+loom {
+	// Enables debug logging for the mod
+	log4jConfigs.from(file("log4j2.xml"))
+}
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
