@@ -3,9 +3,9 @@
   "package": "net.jolene.jojosquared.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "RegionAbilityImpl",
-    "ServerRegionAbilityImpl",
-    "StandOwnerImpl"
+    "stand.StandOwnerImpl",
+    "stand.ability.RegionAbilityImpl",
+    "stand.ability.ServerRegionAbilityImpl"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -14,8 +14,15 @@
     "requireAnnotations": true
   },
   "client": [
-    "ClientRegionAbilityImpl",
-    "KeyBindingAccessorImpl",
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "input.KeyBindingAccessorImpl",
+    "render.GameRendererMixin",
+    "render.GameRendererMixin$Accessor",
+    "render.GlCommandEncoderMixin",
+    "render.access.PostEffectAccessor",
+    "render.access.PostPassAccessor",
+    "render.RenderPassMixin",
+    "render.WorldRendererMixin",
+    "stand.ability.ClientRegionAbilityImpl"
   ]
 }

@@ -1,4 +1,4 @@
-package net.jolene.jojosquared.mixin;
+package net.jolene.jojosquared.mixin.input;
 
 import net.jolene.jojosquared.input.ModKeyBindings;
 import net.jolene.jojosquared.input.api.IKeyBindingAccessor;

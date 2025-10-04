@@ -1,0 +1,77 @@
+{
+  "targets": {
+    "swap": {}
+  },
+  "passes": [
+    {
+      "vertex_shader": "minecraft:post/blit",
+      "fragment_shader": "jojosquared:post/test_shader",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "minecraft:main"
+        },
+        {
+          "sampler_name": "InDepth",
+          "target": "minecraft:main",
+          "use_depth_buffer": true
+        }
+      ],
+      "output": "swap",
+      "uniforms": {
+        "TestShaderConfig": [
+          {
+            "name": "CameraPos",
+            "type": "vec3",
+            "value": [ 0.0, 0.0, 0.0 ]
+          },
+          {
+            "name": "WorldTime",
+            "type": "float",
+            "value": 0.0
+          },
+          {
+            "name": "DragonDeezNuts",
+            "type": "matrix4x4",
+            "value": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ]
+          },
+          {
+            "name": "FCBarcelonaOfficial",
+            "type": "matrix4x4",
+            "value": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ]
+          },
+          {
+            "name": "Postal2VR",
+            "type": "matrix4x4",
+            "value": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ]
+          },
+          {
+            "name": "InverseDeezNutsGottem",
+            "type": "matrix4x4",
+            "value": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ]
+          }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:post/blit",
+      "fragment_shader": "minecraft:post/blit",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "swap"
+        }
+      ],
+      "output": "minecraft:main",
+      "uniforms": {
+        "BlitConfig": [
+          {
+            "name": "ColorModulate",
+            "type": "vec4",
+            "value": [ 1.0, 1.0, 1.0, 1.0 ]
+          }
+        ]
+      }
+    }
+  ]
+}

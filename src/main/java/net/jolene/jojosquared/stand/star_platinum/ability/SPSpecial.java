@@ -10,8 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 
-import java.util.HashSet;
-
 public class SPSpecial extends StandAbility {
     private final StarPlatinumStand parent;
     private int cooldown = 0;
@@ -126,6 +124,6 @@ public class SPSpecial extends StandAbility {
             if (entity.equals(owner) || entity.equals(stand.getEntity()))
                 return false;
         }
-        return entity.distanceTo(owner) < 128;
+        return entity.distanceTo(owner) < 64;
     }
 }

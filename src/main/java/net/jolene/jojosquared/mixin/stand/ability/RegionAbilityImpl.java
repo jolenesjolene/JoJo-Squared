@@ -1,4 +1,4 @@
-package net.jolene.jojosquared.mixin;
+package net.jolene.jojosquared.mixin.stand.ability;
 
 import net.jolene.jojosquared.stand.api.Stand;
 import net.jolene.jojosquared.stand.api.ability.IRegionAbility;

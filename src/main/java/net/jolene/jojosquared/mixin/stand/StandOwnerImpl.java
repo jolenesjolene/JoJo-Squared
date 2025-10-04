@@ -1,15 +1,10 @@
-package net.jolene.jojosquared.mixin;
+package net.jolene.jojosquared.mixin.stand;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.network.payload.ModNetworking;
 import net.jolene.jojosquared.stand.api.Stand;
-import net.jolene.jojosquared.stand.api.StandEntity;
 import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
 import net.jolene.jojosquared.stand.star_platinum.StarPlatinumStand;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
