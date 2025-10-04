@@ -16,13 +16,6 @@
   "client": [
     "MinecraftClientMixin",
     "input.KeyBindingAccessorImpl",
-    "render.GameRendererMixin",
-    "render.GameRendererMixin$Accessor",
-    "render.GlCommandEncoderMixin",
-    "render.access.PostEffectAccessor",
-    "render.access.PostPassAccessor",
-    "render.RenderPassMixin",
-    "render.WorldRendererMixin",
     "stand.ability.ClientRegionAbilityImpl"
   ]
 }

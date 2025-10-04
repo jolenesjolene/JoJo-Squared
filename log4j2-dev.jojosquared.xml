@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns="https://logging.apache.org/xml/ns"
+               xsi:schemaLocation="
+                   https://logging.apache.org/xml/ns
+                   https://logging.apache.org/xml/ns/log4j-config-2.xsd">
+
+    <Appenders>
+        <Console name="SysOut" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg%n"/>
+        </Console>
+        <!-- Add file appenders here if you want -->
+    </Appenders>
+
+    <Loggers>
+        <!-- Root logs everything at INFO or higher -->
+        <Root level="INFO">
+            <AppenderRef ref="SysOut"/>
+            <!-- <AppenderRef ref="DebugFile"/> -->
+            <!-- <AppenderRef ref="LatestFile"/> -->
+        </Root>
+
+        <!-- Your mod logs more verbosely -->
+        <Logger name="jojosquared" level="DEBUG" additivity="false">
+            <AppenderRef ref="SysOut"/>
+        </Logger>
+    </Loggers>
+</Configuration>

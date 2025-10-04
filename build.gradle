@@ -16,6 +16,9 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+	flatDir {
+		dirs "libs/"
+	}
 }
 
 fabricApi {
@@ -25,8 +28,8 @@ fabricApi {
 }
 
 loom {
-	// Enables debug logging for the mod
-	log4jConfigs.from(file("log4j2.xml"))
+	// Enables debug logging for the mod (only in development environments, not present when built)
+	// log4jConfigs.from(file("log4j2-dev.jojosquared.xml"))
 }
 
 dependencies {
@@ -37,6 +40,9 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// Loads limelight-{limelight_version}.jar from libs/ as a dependency
+	include modApi(name: "limelight-${project.limelight_version}", group: "", version: "")
 }
 
 processResources {
