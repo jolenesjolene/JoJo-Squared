@@ -8,7 +8,7 @@
    int MenuBlurRadius;
 */
 // this makes my IDE freak out if uncommented because it thinks #moj_import is null
-#moj_import <minecraft:globals.glsl>
+//#moj_import <minecraft:globals.glsl>
 
 layout(std140) uniform LimelightConfig {
         vec3 CameraPos;

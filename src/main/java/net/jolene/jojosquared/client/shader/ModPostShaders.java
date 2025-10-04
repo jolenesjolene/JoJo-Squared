@@ -1,7 +1,7 @@
 package net.jolene.jojosquared.client.shader;
 
 import net.jolene.jojosquared.JoJoSquared;
-import xyz.zetalasis.limelight.shader.ShaderType;
+import xyz.zetalasis.limelight.shader.api.ShaderType;
 import xyz.zetalasis.limelight.shader.event.LimelightShaderEvents;
 
 public class ModPostShaders {
