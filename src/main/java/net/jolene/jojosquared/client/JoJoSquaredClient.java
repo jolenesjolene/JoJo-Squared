@@ -3,17 +3,16 @@ package net.jolene.jojosquared.client;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.block.ModBlocks;
+import net.jolene.jojosquared.client.shader.ModPostShaders;
 import net.jolene.jojosquared.client.stand.model.StarPlatinumModel;
 import net.jolene.jojosquared.client.stand.renderer.StarPlatinumRenderer;
 import net.jolene.jojosquared.entity.ModEntities;
@@ -44,6 +43,7 @@ public class JoJoSquaredClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(StarPlatinumModel.layer, StarPlatinumModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.STAR_PLATINUM, StarPlatinumRenderer::new);
 
+        ModPostShaders.registerModPostShaders();
         ModKeyBindings.registerModKeys();
 
         ClientPlayNetworking.registerGlobalReceiver(MessageS2CPayload.ID, (payload, context) -> {

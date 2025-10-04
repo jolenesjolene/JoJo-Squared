@@ -10,16 +10,11 @@
         {
           "sampler_name": "In",
           "target": "minecraft:main"
-        },
-        {
-          "sampler_name": "InDepth",
-          "target": "minecraft:main",
-          "use_depth_buffer": true
         }
       ],
       "output": "swap",
       "uniforms": {
-        "TestShaderConfig": [
+        "LimelightConfig": [
           {
             "name": "CameraPos",
             "type": "vec3",
@@ -31,22 +26,22 @@
             "value": 0.0
           },
           {
-            "name": "DragonDeezNuts",
+            "name": "ProjectionMatrix",
             "type": "matrix4x4",
             "value": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ]
           },
           {
-            "name": "FCBarcelonaOfficial",
+            "name": "PositionMatrix",
             "type": "matrix4x4",
             "value": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ]
           },
           {
-            "name": "Postal2VR",
+            "name": "ModelViewMatrix",
             "type": "matrix4x4",
             "value": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ]
           },
           {
-            "name": "InverseDeezNutsGottem",
+            "name": "InverseTransformMatrix",
             "type": "matrix4x4",
             "value": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ]
           }

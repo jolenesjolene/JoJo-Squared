@@ -42,7 +42,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// Loads limelight-{limelight_version}.jar from libs/ as a dependency
-	include modApi(name: "limelight-${project.limelight_version}", group: "", version: "")
+	include modImplementation(name: "limelight-${project.limelight_version}", group: "", version: "")
 }
 
 processResources {

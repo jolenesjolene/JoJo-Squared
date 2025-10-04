@@ -7,19 +7,17 @@
    float GameTime;
    int MenuBlurRadius;
 */
-
 // this makes my IDE freak out if uncommented because it thinks #moj_import is null
 #moj_import <minecraft:globals.glsl>
 
-layout(std140) uniform TestShaderConfig {
+layout(std140) uniform LimelightConfig {
         vec3 CameraPos;
         float WorldTime;
 
-        // delerious uniform names from when i stayed up all night till 6am making this shader with a friend
-        mat4 DragonDeezNuts; // proj mat
-        mat4 FCBarcelonaOfficial; // pos mat
-        mat4 Postal2VR; // model view mat
-        mat4 InverseDeezNutsGottem; // inverse transformation matrix (inverse(proj mat * model view mat))
+        mat4 ProjectionMatrix;
+        mat4 PositionMatrix;
+        mat4 ModelViewMatrix;
+        mat4 InverseTransformMatrix; // equivelant to inverse(proj mat * model view mat)
 };
 
 uniform sampler2D InSampler;
@@ -59,7 +57,7 @@ vec4 s2w(in float depth, in vec2 uv) {
         ndc.z = (2. * depth - near - far) / (far - near);
 
         vec4 worldPos = vec4(ndc, 1.);
-        worldPos = InverseDeezNutsGottem * worldPos;
+        worldPos = InverseTransformMatrix * worldPos;
 
         worldPos = vec4(worldPos.xyz / worldPos.w, worldPos.w);
         // for some reason it was inverted
