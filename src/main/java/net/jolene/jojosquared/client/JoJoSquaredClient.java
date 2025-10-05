@@ -19,9 +19,7 @@ import net.jolene.jojosquared.entity.ModEntities;
 import net.jolene.jojosquared.input.ModKeyBindings;
 import net.jolene.jojosquared.network.impl.PacketRegistry;
 import net.jolene.jojosquared.network.payload.MessageS2CPayload;
-import net.jolene.jojosquared.particle.EquivalentExchange;
-import net.jolene.jojosquared.particle.Menacing;
-import net.jolene.jojosquared.particle.ModParticles;
+import net.jolene.jojosquared.particle.*;
 import net.jolene.jojosquared.stand.api.ability.IRegionAbility;
 import net.jolene.jojosquared.stand.api.ability.StandAbility;
 import net.minecraft.client.MinecraftClient;
@@ -35,7 +33,8 @@ public class JoJoSquaredClient implements ClientModInitializer {
     public void onInitializeClient() {
         //Particle Factory
         ParticleFactoryRegistry.getInstance().register(ModParticles.MENACING, Menacing.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.SPARKLE, EquivalentExchange.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.SPARKLE, Sparkle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.MANIFEST, Manifest.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.EQUIVALENT_EXCHANGE, EquivalentExchange.Factory::new);
         BlockRenderLayerMap.putBlock(ModBlocks.ROKAKAKA_PLANT, BlockRenderLayer.CUTOUT);
         BlockRenderLayerMap.putBlock(ModBlocks.ROKAKAKA_PLANT_TOP, BlockRenderLayer.CUTOUT);
