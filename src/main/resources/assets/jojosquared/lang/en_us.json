@@ -51,6 +51,10 @@
   "advancement.jojosquared.stand.description": "You feel it lurking behind you.",
   "advancement.jojosquared.rokakaka": "Black Market Secrets",
   "advancement.jojosquared.rokakaka.description":"A fruit sought after by many... for reasons unknown",
+  "advancement.jojosquared.user": "ITS AN ENEMY STAND USER",
+  "advancement.jojosquared.user.description":"Encounter a fellow Stand User.",
+  "advancement.jojosquared.egyptian": "Walk Like an Egyptian",
+  "advancement.jojosquared.egyptian.description":"Use a Crusaders Stand in a Desert Biome.",
   "advancement.jojosquared.hard": "In the Palm of Her Hand",
   "advancement.jojosquared.hard.description":"Stare longingly into the hands of the Mona Lisa.",
   "advancement.jojosquared.silly": "That Doesn’t Belong There!",
@@ -62,7 +66,7 @@
   "advancement.jojosquared.attempt": "Get Down Mr. President!",
   "advancement.jojosquared.attempt.description":"Cause or witness an attempt on Coco Jumbo's life.",
   "advancement.jojosquared.zoo": "Traveling Zoo",
-  "advancement.jojosquared.zoo.desc":"Gather 10 animals inside Mr. President at once.",
+  "advancement.jojosquared.zoo.description":"Gather 10 animals inside Mr. President at once.",
 
 
 
