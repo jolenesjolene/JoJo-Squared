@@ -1,6 +1,6 @@
 {
   "_comment_group": "Item Group Thingies",
-  "itemgroup.jojosquared.jojosquared": "JoJo²",
+  "itemgroup.jojosquared.jojosquared": "★ JoJo² ★ ",
   "item.jojosquared.group_sprite": "Group Sprite",
 
   "_comment_items": "Items!",
@@ -16,6 +16,8 @@
 
   "_comment_blocks": "Blocks!",
   "item.jojosquared.starfallen_stone": "Starfallen Stone",
+  "item.jojosquared.mysterious_ship_metal": "Mysterious Ship Metal",
+  "item.jojosquared.mysterious_ship_metal.desc": "§cNot in Survival, sorry!",
 
   "_comment_discs": "Music Discs!",
   "item.jojosquared.morioh_cho_radio": "Music Disc",
@@ -53,6 +55,8 @@
   "advancement.jojosquared.hard.description":"Stare longingly into the hands of the Mona Lisa.",
   "advancement.jojosquared.silly": "That Doesn’t Belong There!",
   "advancement.jojosquared.silly.description":"Attempt (and fail) to put a Stand Disc into a jukebox.",
+  "advancement.jojosquared.monke": "A Cap'n Goes Down with Their Ship",
+  "advancement.jojosquared.monke.description":"Seize Strength from orangutan 'Forever'",
 
   "_comment_keybinds": "beep boop i'm straight keybinding it rn",
   "category.jojosquared.stand": "JoJo² Stands",

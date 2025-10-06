@@ -32,6 +32,7 @@ public class ModItemGroups {
                             entries.add(SQUID_INK_PASTA);}
                         entries.add(ModItems.MORIOH_CHO_RADIO);
                         entries.add(ModItems.MENACING_SPOON);
+                        entries.add(ModBlocks.MYSTERIOUS_SHIP_METAL);
                     }).build());
 
     public static void registerModItemGroups() {

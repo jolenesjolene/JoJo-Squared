@@ -7,6 +7,7 @@ import net.jolene.jojosquared.block.ModBlocks;
 import net.jolene.jojosquared.effect.ModEffects;
 import net.jolene.jojosquared.entity.ModEntities;
 import net.jolene.jojosquared.item.ModItemGroups;
+import net.jolene.jojosquared.item.ModItemTooltips;
 import net.jolene.jojosquared.item.ModItems;
 import net.jolene.jojosquared.network.payload.ModNetworking;
 import net.jolene.jojosquared.particle.ModParticles;
@@ -34,6 +35,7 @@ public class JoJoSquared implements ModInitializer {
 
 		ModItems.registerModItems();
 		ModItemGroups.registerModItemGroups();
+		ModItemTooltips.registerModItemTooltips();
 		ModBlocks.registerModBlocks();
 		ModParticles.registerModParticles();
 		ModSounds.registerModSounds();

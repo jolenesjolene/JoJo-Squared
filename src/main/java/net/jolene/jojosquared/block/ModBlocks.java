@@ -23,6 +23,8 @@ import java.util.function.Function;
 public class ModBlocks {
     public static final Block STARFALLEN_STONE = registerBlock("starfallen_stone",
             AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final Block MYSTERIOUS_SHIP_METAL = registerBlock("mysterious_ship_metal",
+            AbstractBlock.Settings.create().strength(-1.0f, 3600000.0f).slipperiness(1f).sounds(BlockSoundGroup.NETHERITE));
 
     public static final Block ROKAKAKA_PLANT = registerBlockWithoutBlockItem("rokakaka_plant",
             properties -> new RokakakaPlantBlock(properties.noCollision()
@@ -55,6 +57,7 @@ public class ModBlocks {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
             entries.add(ModBlocks.STARFALLEN_STONE);
+            entries.add(ModBlocks.MYSTERIOUS_SHIP_METAL);
         });
     }
 }
