@@ -57,6 +57,14 @@
   "advancement.jojosquared.silly.description":"Attempt (and fail) to put a Stand Disc into a jukebox.",
   "advancement.jojosquared.monke": "A Cap'n Goes Down with Their Ship",
   "advancement.jojosquared.monke.description":"Seize Strength from orangutan 'Forever'",
+  "advancement.jojosquared.president": "A Doorway",
+  "advancement.jojosquared.president.description":"Seek refuge within the confines of Mr. President.",
+  "advancement.jojosquared.attempt": "Get Down Mr. President!",
+  "advancement.jojosquared.attempt.description":"Cause or witness an attempt on Coco Jumbo's life.",
+  "advancement.jojosquared.zoo": "Traveling Zoo",
+  "advancement.jojosquared.zoo.desc":"Gather 10 animals inside Mr. President at once.",
+
+
 
   "_comment_keybinds": "beep boop i'm straight keybinding it rn",
   "category.jojosquared.stand": "JoJo² Stands",
