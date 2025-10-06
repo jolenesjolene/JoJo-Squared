@@ -2,22 +2,20 @@ package net.jolene.jojosquared.stand.star_platinum.ability;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.jolene.jojosquared.network.payload.ModNetworking;
 import net.jolene.jojosquared.sound.ModSounds;
 import net.jolene.jojosquared.stand.api.ability.PressContext;
 import net.jolene.jojosquared.stand.api.ability.StandAbility;
 import net.jolene.jojosquared.stand.api.StandEntity;
 import net.jolene.jojosquared.stand.api.hitbox.StandAbilityHitbox;
-import net.jolene.jojosquared.stand.api.network.StandC2SContext;
 import net.jolene.jojosquared.stand.star_platinum.StarPlatinumStand;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 public class SPDefault extends StandAbility {
     private final StarPlatinumStand parent;
@@ -41,7 +39,8 @@ public class SPDefault extends StandAbility {
         if (punchCombo == 3)
         {
             punchCombo = 0;
-            cooldown = 10;
+            cooldown = 40; //Not sure if this does anything
+            //1s Cooldown before Combo Again
             return;
         }
 
@@ -68,16 +67,19 @@ public class SPDefault extends StandAbility {
                 case 1 -> {
                     parent.playAnimation(StandEntity.Animations.DEFAULT_1);
                     parent.addRenderOffset(new Vec3d(0f, 0f, -1.25f));
-                    cooldown = 20;
+                    cooldown = 10;
+                    //0.5 Cooldown before DEFAULT_2
                 }
                 case 2 -> {
                     parent.playAnimation(StandEntity.Animations.DEFAULT_2);
-                    cooldown = 25;
+                    cooldown = 15;
+                    //0.75 Cooldown before DEFAULT_3
                 }
                 case 3 -> {
                     parent.playAnimation(StandEntity.Animations.DEFAULT_3);
+                    cooldown = 15;
                     punchCombo = 0;
-                    cooldown = 25;
+
                 }
             }
             if (parent.getOwner() != null)
@@ -90,11 +92,11 @@ public class SPDefault extends StandAbility {
 
                 if (world.isClient)
                 {
-                    float hitboxSize = 0.8f;
+                    float hitboxSize = 1.0f;
                     float hitboxDistance = 2.5f;
 
                     Vec3d punchOffset = Vec3d.fromPolar(parent.getOwner().getPitch(), parent.getOwner().getHeadYaw()).multiply(hitboxDistance);
-                    hitbox = new StandAbilityHitbox(pos.add(punchOffset), new Vec3d(hitboxSize, hitboxSize, hitboxSize), parent.getEntity().age, 3);
+                    hitbox = new StandAbilityHitbox(pos.add(punchOffset), new Vec3d(hitboxSize, hitboxSize, hitboxSize), parent.getEntity().age, 10);
                     for (LivingEntity ent : hitbox.getEntitiesInside(parent.getOwner().getWorld()))
                     {
                         if (ent.equals(parent.getOwner()))
@@ -102,6 +104,7 @@ public class SPDefault extends StandAbility {
 
                         //ModNetworking.sendMessageC2S("base_stand_atk_c2s", ent.getId(), 2 + (punchCombo * 2), StandC2SContext.DAMAGE_ENTITY);
                         parent.damageEntity(ent, null, 2.0f + (punchCombo * 2.0f));
+                        world.playSound(parent.getEntity(), pos.x, pos.y, pos.z, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, SoundCategory.NEUTRAL);
                     }
                 }
             }
@@ -162,7 +165,7 @@ public class SPDefault extends StandAbility {
 
         if (hitbox != null)
         {
-            hitbox.visualize(matrices, vertexConsumer);
+            //hitbox.visualize(matrices, vertexConsumer);
         }
 
         matrices.pop();
