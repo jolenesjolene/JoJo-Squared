@@ -29,7 +29,7 @@ fabricApi {
 
 loom {
 	// Enables debug logging for the mod (only in development environments, not present when built)
-	// log4jConfigs.from(file("log4j2-dev.jojosquared.xml"))
+	log4jConfigs.from(file("log4j2-dev.jojosquared.xml"))
 }
 
 dependencies {
@@ -43,6 +43,7 @@ dependencies {
 
 	// Loads limelight-{limelight_version}.jar from libs/ as a dependency
 	include modImplementation(name: "limelight-${project.limelight_version}", group: "", version: "")
+	include implementation('com.moandjiezana.toml:toml4j:0.7.2')
 }
 
 processResources {

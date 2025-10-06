@@ -3,6 +3,7 @@ package net.jolene.jojosquared.mixin.stand;
 import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.network.payload.ModNetworking;
 import net.jolene.jojosquared.stand.api.Stand;
+import net.jolene.jojosquared.stand.api.ability.StandAbility;
 import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
 import net.jolene.jojosquared.stand.star_platinum.StarPlatinumStand;
 import net.minecraft.entity.Entity;
@@ -15,17 +16,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(LivingEntity.class)
 public class StandOwnerImpl implements IStandOwner {
     @Unique private Stand stand;
 
     @Override @Unique
-    public @Nullable Stand jojosquared$getStand() {
+    public @Nullable Stand getStand() {
         return stand;
     }
 
     @Override @Unique
-    public void jojosquared$setStand(@NotNull Stand stand, int standId, boolean summoned) {
+    public void setStand(@NotNull Stand stand, int standId, boolean summoned) {
         if (this.stand != null)
             this.stand.withdraw();
 
@@ -46,6 +48,11 @@ public class StandOwnerImpl implements IStandOwner {
         } else {
             this.stand.quietWithdraw();
         }
+    }
+
+    @Override
+    public boolean isAffectedByRegionAbility(Class<? extends StandAbility> abilityClass) {
+        return false;
     }
 
     @Inject(method = "tick", at = @At("HEAD"))

@@ -24,7 +24,7 @@ public class StandOwnerNetworking {
         if (world.getEntityById(entityId) instanceof LivingEntity entity)
         {
             IStandOwner owner = IStandOwner.get(entity);
-            Stand stand = owner.jojosquared$getStand();
+            Stand stand = owner.getStand();
 
             if (stand == null)
                 ModNetworking.sendMessageS2C(serverPlayer, "stand_owner_s2c", entityId, "none", Integer.MIN_VALUE, false);
@@ -53,7 +53,7 @@ public class StandOwnerNetworking {
 
             try {
                 IStandOwner owner = IStandOwner.get(entity);
-                Stand stand = owner.jojosquared$getStand();
+                Stand stand = owner.getStand();
 
                 if (stand != null && stand.getClass().getName().equals(className))
                     return; // nothing to do, entity already has the stand we're setting
@@ -62,7 +62,7 @@ public class StandOwnerNetworking {
                 //noinspection unchecked
                 Class<? extends Stand> standClass = (Class<? extends Stand>) Class.forName(className);
                 Stand s = standClass.getDeclaredConstructor(LivingEntity.class).newInstance(entity);
-                owner.jojosquared$setStand(s, standId, summoned);
+                owner.setStand(s, standId, summoned);
             }
             catch (Exception e)
             {

@@ -350,7 +350,7 @@ public abstract class Stand {
             switch (context) {
                 case StandC2SContext.SUMMON_STAND -> {
                     IStandOwner standOwner = IStandOwner.get(serverPlayer);
-                    Stand stand = standOwner.jojosquared$getStand();
+                    Stand stand = standOwner.getStand();
                     if (stand == null)
                         return; // idk how this happened lmao
 
@@ -358,7 +358,7 @@ public abstract class Stand {
                 }
                 case StandC2SContext.DESUMMON_STAND -> {
                     IStandOwner standOwner = IStandOwner.get(serverPlayer);
-                    Stand stand = standOwner.jojosquared$getStand();
+                    Stand stand = standOwner.getStand();
                     if (stand == null)
                         return; // idk how this happened lmao
 
@@ -374,7 +374,7 @@ public abstract class Stand {
             assert context == StandC2SContext.ATTACK || context == StandC2SContext.RELEASE : "Got a packet other than ATTACK/RELEASE for standAtkC2S!";
 
             IStandOwner owner = IStandOwner.get(serverPlayer);
-            Stand ownerStand = owner.jojosquared$getStand();
+            Stand ownerStand = owner.getStand();
             if (ownerStand == null)
                 return; // how?? how even???
 
@@ -396,7 +396,7 @@ public abstract class Stand {
             assert context == StandC2SContext.DAMAGE_ENTITY : "Got a packet other than DAMAGE_ENTITY for standDamageEntityC2S!";
 
             IStandOwner owner = IStandOwner.get(serverPlayer);
-            Stand ownerStand = owner.jojosquared$getStand();
+            Stand ownerStand = owner.getStand();
             if (ownerStand == null)
                 return; // how?? how even???
 
@@ -430,7 +430,7 @@ public abstract class Stand {
             if (client.world.getEntityById(ownerId) instanceof LivingEntity ownerEnt)
             {
                 IStandOwner owner = IStandOwner.get(ownerEnt);
-                Stand ownerStand = owner.jojosquared$getStand();
+                Stand ownerStand = owner.getStand();
                 if (ownerStand == null)
                     return; // how?? how even???
 

@@ -7,7 +7,12 @@
 
     <Appenders>
         <Console name="SysOut" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg%n"/>
+            <PatternLayout>
+                <LoggerNamePatternSelector defaultPattern="%style{[%d{HH:mm:ss}]}{blue} %highlight{[%t/%level]}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=blue} %style{(%logger{1})}{cyan} %highlight{%msg%n}{FATAL=red, ERROR=red, WARN=normal, INFO=normal, DEBUG=normal, TRACE=normal}" disableAnsi="${sys:fabric.log.disableAnsi:-true}">
+                    <!-- Dont show the logger name for minecraft classes-->
+                    <PatternMatch key="net.minecraft.,com.mojang." pattern="%style{[%d{HH:mm:ss}]}{blue} %highlight{[%t/%level]}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=blue} %style{(Minecraft)}{cyan} %highlight{%msg{nolookups}%n}{FATAL=red, ERROR=red, WARN=normal, INFO=normal, DEBUG=normal, TRACE=normal}"/>
+                </LoggerNamePatternSelector>
+            </PatternLayout>
         </Console>
         <!-- Add file appenders here if you want -->
     </Appenders>
@@ -19,9 +24,10 @@
             <!-- <AppenderRef ref="DebugFile"/> -->
             <!-- <AppenderRef ref="LatestFile"/> -->
         </Root>
-
-        <!-- Your mod logs more verbosely -->
         <Logger name="jojosquared" level="DEBUG" additivity="false">
+            <AppenderRef ref="SysOut"/>
+        </Logger>
+        <Logger name="limelight" level="DEBUG" additivity="false">
             <AppenderRef ref="SysOut"/>
         </Logger>
     </Loggers>

@@ -4,9 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.input.ModKeyBindings;
-import net.jolene.jojosquared.input.api.InputModule;
 import net.jolene.jojosquared.input.api.StickyInputModule;
-import net.jolene.jojosquared.particle.ModParticles;
 import net.jolene.jojosquared.sound.ModSounds;
 import net.jolene.jojosquared.stand.api.Stand;
 import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
@@ -24,7 +22,7 @@ public class SummonStandKey extends StickyInputModule {
         if (client.player == null)
             return;
         IStandOwner standOwner = IStandOwner.get(client.player);
-        Stand stand = standOwner.jojosquared$getStand();
+        Stand stand = standOwner.getStand();
 
         if (stand != null) {
             if (!stand.isSummoned()) {

@@ -19,7 +19,7 @@ public class PrimaryAttackKey extends InputModule {
         if (client.player == null)
             return;
         IStandOwner standOwner = IStandOwner.get(client.player);
-        Stand stand = standOwner.jojosquared$getStand();
+        Stand stand = standOwner.getStand();
 
         if (stand == null || stand.isBusy())
             return;
@@ -37,7 +37,7 @@ public class PrimaryAttackKey extends InputModule {
         { return false; }
 
         IStandOwner standOwner = IStandOwner.get(client.player);
-        Stand stand = standOwner.jojosquared$getStand();
+        Stand stand = standOwner.getStand();
 
         return stand != null && !stand.isBusy();
     }

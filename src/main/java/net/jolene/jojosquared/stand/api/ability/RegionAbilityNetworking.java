@@ -1,6 +1,5 @@
 package net.jolene.jojosquared.stand.api.ability;
 
-import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.network.api.MessageListener;
 import net.jolene.jojosquared.stand.api.Stand;
 import net.jolene.jojosquared.stand.api.mixin.IStandOwner;
@@ -22,7 +21,7 @@ public class RegionAbilityNetworking {
         if (client.world.getEntityById(ownerId) instanceof LivingEntity entity)
         {
             IStandOwner owner = IStandOwner.get(entity);
-            Stand stand = owner.jojosquared$getStand();
+            Stand stand = owner.getStand();
             if (stand == null)
                 return;
 
