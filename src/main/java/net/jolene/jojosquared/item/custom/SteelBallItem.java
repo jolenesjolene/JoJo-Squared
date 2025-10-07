@@ -27,7 +27,7 @@ public class SteelBallItem extends Item {
                 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
 
         if (!world.isClient) {
-            user.getItemCooldownManager().set(getDefaultStack(), 120);
+            user.getItemCooldownManager().set(getDefaultStack(), 80);
 
             // damage the item by 1
             itemStack.damage(1, user);
