@@ -48,10 +48,22 @@ public class SteelBallProjectileEntity extends PersistentProjectileEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
 
-        if (returning && entity == this.getOwner()) return;
+        // Don't damage entities that are being ridden
+        if (!entity.getPassengerList().isEmpty()) {
+            return;
+        }
+
+        // Don't hit owner while returning
+        if (returning && entity == this.getOwner()) {
+            return;
+        }
 
         if (!this.getWorld().isClient) {
-            entity.damage(((ServerWorld) this.getWorld()), this.getDamageSources().thrown(this, this.getOwner()), 4);
+            entity.damage(
+                    ((ServerWorld) this.getWorld()),
+                    this.getDamageSources().thrown(this, this.getOwner()),
+                    4
+            );
 
             ((ServerWorld) this.getWorld()).spawnParticles(
                     ParticleTypes.CRIT, this.getX(), this.getY(), this.getZ(),
@@ -59,6 +71,7 @@ public class SteelBallProjectileEntity extends PersistentProjectileEntity {
             );
         }
     }
+
 
     @Override
     protected void onBlockHit(BlockHitResult result) {
