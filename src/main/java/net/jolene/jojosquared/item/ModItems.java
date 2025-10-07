@@ -26,7 +26,7 @@ public class ModItems {
     public static final Item STAND_DISC = registerItem("stand_disc", new Item(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(JoJoSquared.MOD_ID,"stand_disc"))).maxCount(1)));
     public static final Item STEEL_BALL = registerItem("steel_ball", new SteelBallItem(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(JoJoSquared.MOD_ID,"steel_ball"))).maxCount(2)));
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(JoJoSquared.MOD_ID,"steel_ball"))).maxCount(1).maxDamage(30)));
     public static final Item THROWING_KNIFE = registerItem("throwing_knife", new ThrowingKnifeItem(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(JoJoSquared.MOD_ID,"throwing_knife"))).maxCount(16)));
     public static final Item STARDUST_SHARD = registerItem("stardust_shard", new Item(new Item.Settings()
