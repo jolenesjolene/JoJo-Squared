@@ -64,6 +64,10 @@ public class SteelBallProjectileEntity extends PersistentProjectileEntity {
                     this.getDamageSources().thrown(this, this.getOwner()),
                     4
             );
+            Vec3d knockbackDir = entity.getPos().subtract(this.getPos()).normalize();
+            double knockbackStrength = 0.5; // You can tweak this
+            entity.addVelocity(knockbackDir.x * knockbackStrength, 0.1, knockbackDir.z * knockbackStrength);
+            entity.velocityModified = true;
 
             ((ServerWorld) this.getWorld()).spawnParticles(
                     ParticleTypes.CRIT, this.getX(), this.getY(), this.getZ(),
