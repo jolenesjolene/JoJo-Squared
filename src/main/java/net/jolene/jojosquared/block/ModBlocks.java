@@ -3,7 +3,6 @@ package net.jolene.jojosquared.block;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.block.custom.RokakakaPlantBlock;
-import net.jolene.jojosquared.block.custom.RokakakaPlantTopBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -28,11 +27,6 @@ public class ModBlocks {
 
     public static final Block ROKAKAKA_PLANT = registerBlockWithoutBlockItem("rokakaka_plant",
             properties -> new RokakakaPlantBlock(properties.noCollision()
-                    .ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)
-                    .pistonBehavior(PistonBehavior.DESTROY)));
-
-    public static final Block ROKAKAKA_PLANT_TOP = registerBlockWithoutBlockItem("rokakaka_plant_top",
-            properties -> new RokakakaPlantTopBlock(properties.noCollision()
                     .ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)
                     .pistonBehavior(PistonBehavior.DESTROY)));
 

@@ -1,10 +1,17 @@
 {
   "variants": {
-    "age=0": { "model": "ninetofiveessentials:block/nicotiana_stage0" },
-    "age=1": { "model": "ninetofiveessentials:block/nicotiana_stage1" },
-    "age=2": { "model": "ninetofiveessentials:block/nicotiana_stage2" },
-    "age=3": { "model": "ninetofiveessentials:block/nicotiana_stage3" },
-    "age=4": { "model": "ninetofiveessentials:block/nicotiana_stage4" },
-    "age=5": { "model": "jojosquared:block/rokakaka_plant_stage5" }
+    "age=0,top=false": { "model": "ninetofiveessentials:block/nicotiana_stage0" },
+    "age=1,top=false": { "model": "ninetofiveessentials:block/nicotiana_stage1" },
+    "age=2,top=false": { "model": "ninetofiveessentials:block/nicotiana_stage2" },
+    "age=3,top=false": { "model": "ninetofiveessentials:block/nicotiana_stage3" },
+    "age=4,top=false": { "model": "ninetofiveessentials:block/nicotiana_stage4" },
+    "age=5,top=false": { "model": "jojosquared:block/rokakaka_plant_stage5" },
+
+    "age=0,top=true": { "model": "ninetofiveessentials:block/nicotiana_stage0" },
+    "age=1,top=true": { "model": "ninetofiveessentials:block/nicotiana_stage1" },
+    "age=2,top=true": { "model": "ninetofiveessentials:block/nicotiana_stage2" },
+    "age=3,top=true": { "model": "ninetofiveessentials:block/nicotiana_stage3" },
+    "age=4,top=true": { "model": "ninetofiveessentials:block/nicotiana_stage4" },
+    "age=5,top=true": { "model": "jojosquared:block/rokakaka_plant_top_stage2" }
   }
 }

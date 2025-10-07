@@ -32,7 +32,7 @@ public class JoJoSquaredClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.MANIFEST, Manifest.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.EQUIVALENT_EXCHANGE, EquivalentExchange.Factory::new);
         BlockRenderLayerMap.putBlock(ModBlocks.ROKAKAKA_PLANT, BlockRenderLayer.CUTOUT);
-        BlockRenderLayerMap.putBlock(ModBlocks.ROKAKAKA_PLANT_TOP, BlockRenderLayer.CUTOUT);
+        //BlockRenderLayerMap.putBlock(ModBlocks.ROKAKAKA_PLANT_TOP, BlockRenderLayer.CUTOUT);
 
         EntityModelLayerRegistry.registerModelLayer(StarPlatinumModel.layer, StarPlatinumModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.STAR_PLATINUM, StarPlatinumRenderer::new);
