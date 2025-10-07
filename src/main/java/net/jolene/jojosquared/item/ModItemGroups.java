@@ -22,6 +22,8 @@ public class ModItemGroups {
                         entries.add(ModItems.STAND_ARROW);
                         entries.add(ModItems.BROKEN_STAND_ARROW);
                         entries.add(ModItems.STAND_DISC);
+                        entries.add(ModItems.STEEL_BALL);
+                        entries.add(ModItems.THROWING_KNIFE);
                         entries.add(ModBlocks.STARFALLEN_STONE);
                         entries.add(ModItems.STARDUST_SHARD);
                         entries.add(ModItems.ROKAKAKA);

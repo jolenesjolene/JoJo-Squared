@@ -5,6 +5,8 @@ import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.block.ModBlocks;
 import net.jolene.jojosquared.item.custom.MenacingSpoonItem;
 import net.jolene.jojosquared.item.custom.StandArrowItem;
+import net.jolene.jojosquared.item.custom.SteelBallItem;
+import net.jolene.jojosquared.item.custom.ThrowingKnifeItem;
 import net.jolene.jojosquared.sound.ModSounds;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
@@ -23,6 +25,10 @@ public class ModItems {
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(JoJoSquared.MOD_ID,"broken_stand_arrow"))).maxCount(1)));
     public static final Item STAND_DISC = registerItem("stand_disc", new Item(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(JoJoSquared.MOD_ID,"stand_disc"))).maxCount(1)));
+    public static final Item STEEL_BALL = registerItem("steel_ball", new SteelBallItem(new Item.Settings()
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(JoJoSquared.MOD_ID,"steel_ball"))).maxCount(2)));
+    public static final Item THROWING_KNIFE = registerItem("throwing_knife", new ThrowingKnifeItem(new Item.Settings()
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(JoJoSquared.MOD_ID,"throwing_knife"))).maxCount(16)));
     public static final Item STARDUST_SHARD = registerItem("stardust_shard", new Item(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(JoJoSquared.MOD_ID,"stardust_shard")))));
     public static final Item ROKAKAKA = registerItem("rokakaka", new Item(new Item.Settings().food(ModFoodComponents.ROKAKAKA)
@@ -45,6 +51,11 @@ public class ModItems {
 
     public static void registerModItems() {
         JoJoSquared.LOGGER.info("Registering Items for {}", JoJoSquared.MOD_ID);
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
+            entries.add(STEEL_BALL);
+            entries.add(THROWING_KNIFE);
+        });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(STAND_ARROW);

@@ -39,7 +39,7 @@ public class SPDefault extends StandAbility {
         if (punchCombo == 3)
         {
             punchCombo = 0;
-            cooldown = 40; //Not sure if this does anything
+            cooldown = 1; //Not sure if this does anything
             //1s Cooldown before Combo Again
             return;
         }
