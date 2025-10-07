@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " i ",
+        "iSi",
+        " i "
+    ],
+    "key": {
+        "i": "minecraft:iron_ingot",
+        "S": "minecraft:slime_ball"
+    },
+    "result": {
+        "id": "jojosquared:steel_ball",
+        "count": 1
+    }
+}

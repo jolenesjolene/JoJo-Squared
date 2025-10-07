@@ -8,7 +8,7 @@ import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.util.Identifier;
 
 public class ThrowingKnifeProjectileModel extends EntityModel<EntityRenderState> {
-    public static final EntityModelLayer THROWING_KNIFE = new EntityModelLayer(Identifier.of(JoJoSquared.MOD_ID, "steel_ball"), "main");
+    public static final EntityModelLayer THROWING_KNIFE = new EntityModelLayer(Identifier.of(JoJoSquared.MOD_ID, "throwing_knife"), "main");
     private final ModelPart throwing_knife;
 
     public ThrowingKnifeProjectileModel(ModelPart root) {

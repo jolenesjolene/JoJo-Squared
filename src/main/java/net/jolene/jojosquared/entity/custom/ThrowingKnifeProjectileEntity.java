@@ -23,7 +23,7 @@ public class ThrowingKnifeProjectileEntity extends PersistentProjectileEntity {
     }
 
     public ThrowingKnifeProjectileEntity(World world, PlayerEntity player) {
-        super(ModEntities.STEEL_BALL, player, world, new ItemStack(ModItems.THROWING_KNIFE), null);
+        super(ModEntities.THROWING_KNIFE, player, world, new ItemStack(ModItems.THROWING_KNIFE), null);
     }
 
     @Override

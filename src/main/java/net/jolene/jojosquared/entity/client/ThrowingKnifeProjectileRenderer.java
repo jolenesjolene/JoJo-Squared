@@ -27,7 +27,7 @@ public class ThrowingKnifeProjectileRenderer extends EntityRenderer<ThrowingKnif
         matrices.push();
 
         VertexConsumer vertexconsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers,
-                this.model.getLayer(Identifier.of(JoJoSquared.MOD_ID, "textures/entity/throwing_knife/throwing_knife.png")), false, false);
+                this.model.getLayer(Identifier.of(JoJoSquared.MOD_ID, "textures/entity/steel_ball/steel_ball.png")), false, false);
         this.model.render(matrices, vertexconsumer, light, OverlayTexture.DEFAULT_UV);
 
         matrices.pop();
