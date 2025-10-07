@@ -2,6 +2,7 @@ package net.jolene.jojosquared.entity.client;
 
 import net.jolene.jojosquared.JoJoSquared;
 import net.jolene.jojosquared.entity.custom.SteelBallProjectileEntity;
+import net.jolene.jojosquared.entity.custom.ThrowingKnifeProjectileEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -12,7 +13,7 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class ThrowingKnifeProjectileRenderer extends EntityRenderer<SteelBallProjectileEntity, EntityRenderState> {
+public class ThrowingKnifeProjectileRenderer extends EntityRenderer<ThrowingKnifeProjectileEntity, EntityRenderState> {
     protected ThrowingKnifeProjectileModel model;
 
     public ThrowingKnifeProjectileRenderer(EntityRendererFactory.Context ctx) {
@@ -26,7 +27,7 @@ public class ThrowingKnifeProjectileRenderer extends EntityRenderer<SteelBallPro
         matrices.push();
 
         VertexConsumer vertexconsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers,
-                this.model.getLayer(Identifier.of(JoJoSquared.MOD_ID, "textures/entity/steel_ball/steel_ball.png")), false, false);
+                this.model.getLayer(Identifier.of(JoJoSquared.MOD_ID, "textures/entity/throwing_knife/throwing_knife.png")), false, false);
         this.model.render(matrices, vertexconsumer, light, OverlayTexture.DEFAULT_UV);
 
         matrices.pop();

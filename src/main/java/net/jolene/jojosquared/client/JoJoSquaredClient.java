@@ -14,6 +14,10 @@ import net.jolene.jojosquared.client.stand.model.StarPlatinumModel;
 import net.jolene.jojosquared.client.stand.renderer.StarPlatinumRenderer;
 import net.jolene.jojosquared.client.util.JoJoSquaredClientConfig;
 import net.jolene.jojosquared.entity.ModEntities;
+import net.jolene.jojosquared.entity.client.SteelBallProjectileModel;
+import net.jolene.jojosquared.entity.client.SteelBallProjectileRenderer;
+import net.jolene.jojosquared.entity.client.ThrowingKnifeProjectileModel;
+import net.jolene.jojosquared.entity.client.ThrowingKnifeProjectileRenderer;
 import net.jolene.jojosquared.input.ModKeyBindings;
 import net.jolene.jojosquared.network.impl.PacketRegistry;
 import net.jolene.jojosquared.network.payload.MessageS2CPayload;
@@ -32,8 +36,10 @@ public class JoJoSquaredClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.MANIFEST, Manifest.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.EQUIVALENT_EXCHANGE, EquivalentExchange.Factory::new);
         BlockRenderLayerMap.putBlock(ModBlocks.ROKAKAKA_PLANT, BlockRenderLayer.CUTOUT);
-        //BlockRenderLayerMap.putBlock(ModBlocks.ROKAKAKA_PLANT_TOP, BlockRenderLayer.CUTOUT);
-
+        EntityModelLayerRegistry.registerModelLayer(SteelBallProjectileModel.STEEL_BALL, SteelBallProjectileModel::getTexturedModelData);
+        EntityRendererRegistry.register(ModEntities.STEEL_BALL, SteelBallProjectileRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(ThrowingKnifeProjectileModel.THROWING_KNIFE, ThrowingKnifeProjectileModel::getTexturedModelData);
+        EntityRendererRegistry.register(ModEntities.THROWING_KNIFE, ThrowingKnifeProjectileRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(StarPlatinumModel.layer, StarPlatinumModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.STAR_PLATINUM, StarPlatinumRenderer::new);
 
